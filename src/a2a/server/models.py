@@ -267,7 +267,7 @@ def create_push_notification_config_model(
 
     Args:
         table_name: Name of the database table. Defaults to 'push_notification_configs'.
-        base_cls: Base declarative class to use. Defaults to the SDK's Base class.
+        base: Base declarative class to use. Defaults to the SDK's Base class.
 
     Returns:
         PushNotificationConfigModel class with the specified table name.
