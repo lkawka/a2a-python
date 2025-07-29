@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-from datetime import datetime
 from enum import Enum
 from typing import Any, Literal
 
@@ -1619,8 +1618,10 @@ class TaskStatus(A2ABaseModel):
     """
     The current state of the task's lifecycle.
     """
-    timestamp: datetime | None = Field(
-        default=None, examples=['2023-10-27T10:00:00Z']
+    timestamp: str | None = Field(
+        default=None,
+        examples=['2023-10-27T10:00:00Z'],
+        pattern='^(\\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])T([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)(\\.\\d+)?(Z|[+-](?:[01]\\d|2[0-3])(?::?[0-5]\\d)?)?$',
     )
     """
     An ISO 8601 datetime string indicating when this status was recorded.
