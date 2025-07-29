@@ -88,7 +88,7 @@ class AgentExtension(A2ABaseModel):
     If true, the client must understand and comply with the extension's requirements
     to interact with the agent.
     """
-    uri: AnyUrl
+    uri: str
     """
     The unique URI identifying the extension.
     """
@@ -104,7 +104,7 @@ class AgentInterface(A2ABaseModel):
     """
     The transport protocol supported at this URL.
     """
-    url: AnyUrl = Field(
+    url: str = Field(
         ...,
         examples=[
             'https://api.example.com/a2a/v1',
@@ -166,10 +166,30 @@ class AgentSkill(A2ABaseModel):
     The set of supported output MIME types for this skill, overriding the agent's defaults.
     """
     tags: list[str] = Field(
-        ..., examples=[['cooking', 'customer support', 'billing']], min_length=1
+        ..., examples=[['cooking', 'customer support', 'billing']]
     )
     """
     A set of keywords describing the skill's capabilities.
+    """
+
+
+class AuthenticatedExtendedCardNotConfiguredError(A2ABaseModel):
+    """
+    An A2A-specific error indicating that the agent does not have an Authenticated Extended Card configured
+    """
+
+    code: Literal[-32007] = -32007
+    """
+    The error code for when an authenticated extended card is not configured.
+    """
+    data: Any | None = None
+    """
+    A primitive or structured value containing additional information about the error.
+    This may be omitted.
+    """
+    message: str | None = 'Authenticated Extended Card is not configured'
+    """
+    The error message.
     """
 
 
@@ -178,12 +198,12 @@ class AuthorizationCodeOAuthFlow(A2ABaseModel):
     Defines configuration details for the OAuth 2.0 Authorization Code flow.
     """
 
-    authorization_url: AnyUrl
+    authorization_url: str
     """
     The authorization URL to be used for this flow.
     This MUST be a URL and use TLS.
     """
-    refresh_url: AnyUrl | None = None
+    refresh_url: str | None = None
     """
     The URL to be used for obtaining refresh tokens.
     This MUST be a URL and use TLS.
@@ -193,7 +213,7 @@ class AuthorizationCodeOAuthFlow(A2ABaseModel):
     The available scopes for the OAuth2 security scheme. A map between the scope
     name and a short description for it.
     """
-    token_url: AnyUrl
+    token_url: str
     """
     The token URL to be used for this flow.
     This MUST be a URL and use TLS.
@@ -205,7 +225,7 @@ class ClientCredentialsOAuthFlow(A2ABaseModel):
     Defines configuration details for the OAuth 2.0 Client Credentials flow.
     """
 
-    refresh_url: AnyUrl | None = None
+    refresh_url: str | None = None
     """
     The URL to be used for obtaining refresh tokens. This MUST be a URL.
     """
@@ -214,7 +234,7 @@ class ClientCredentialsOAuthFlow(A2ABaseModel):
     The available scopes for the OAuth2 security scheme. A map between the scope
     name and a short description for it.
     """
-    token_url: AnyUrl
+    token_url: str
     """
     The token URL to be used for this flow. This MUST be a URL.
     """
@@ -370,9 +390,30 @@ class FileWithUri(A2ABaseModel):
     """
     An optional name for the file (e.g., "document.pdf").
     """
-    uri: AnyUrl
+    uri: str
     """
     A URL pointing to the file's content.
+    """
+
+
+class GetAuthenticatedExtendedCardRequest(A2ABaseModel):
+    """
+    Represents a JSON-RPC request for the `agent/getAuthenticatedExtendedCard` method.
+    """
+
+    id: str | int
+    """
+    The identifier for this request.
+    """
+    jsonrpc: Literal['2.0'] = '2.0'
+    """
+    The version of the JSON-RPC protocol. MUST be exactly "2.0".
+    """
+    method: Literal['agent/getAuthenticatedExtendedCard'] = (
+        'agent/getAuthenticatedExtendedCard'
+    )
+    """
+    The method name. Must be 'agent/getAuthenticatedExtendedCard'.
     """
 
 
@@ -426,11 +467,11 @@ class ImplicitOAuthFlow(A2ABaseModel):
     Defines configuration details for the OAuth 2.0 Implicit flow.
     """
 
-    authorization_url: AnyUrl
+    authorization_url: str
     """
     The authorization URL to be used for this flow. This MUST be a URL.
     """
-    refresh_url: AnyUrl | None = None
+    refresh_url: str | None = None
     """
     The URL to be used for obtaining refresh tokens. This MUST be a URL.
     """
@@ -699,7 +740,7 @@ class OpenIdConnectSecurityScheme(A2ABaseModel):
     """
     An optional description for the security scheme.
     """
-    open_id_connect_url: AnyUrl
+    open_id_connect_url: str
     """
     The OpenID Connect Discovery URL for the OIDC provider's metadata.
     """
@@ -725,7 +766,7 @@ class PasswordOAuthFlow(A2ABaseModel):
     Defines configuration details for the OAuth 2.0 Resource Owner Password flow.
     """
 
-    refresh_url: AnyUrl | None = None
+    refresh_url: str | None = None
     """
     The URL to be used for obtaining refresh tokens. This MUST be a URL.
     """
@@ -734,7 +775,7 @@ class PasswordOAuthFlow(A2ABaseModel):
     The available scopes for the OAuth2 security scheme. A map between the scope
     name and a short description for it.
     """
-    token_url: AnyUrl
+    token_url: str
     """
     The token URL to be used for this flow. This MUST be a URL.
     """
@@ -749,7 +790,7 @@ class PushNotificationAuthenticationInfo(A2ABaseModel):
     """
     Optional credentials required by the push notification endpoint.
     """
-    schemes: list[str] = Field(..., min_length=1)
+    schemes: list[str]
     """
     A list of supported authentication schemes (e.g., 'Basic', 'Bearer').
     """
@@ -773,7 +814,7 @@ class PushNotificationConfig(A2ABaseModel):
     """
     A unique token for this task or session to validate incoming push notifications.
     """
-    url: AnyUrl
+    url: str
     """
     The callback URL where the agent should send push notifications.
     """
@@ -1000,6 +1041,7 @@ class A2AError(
         | UnsupportedOperationError
         | ContentTypeNotSupportedError
         | InvalidAgentResponseError
+        | AuthenticatedExtendedCardNotConfiguredError
     ]
 ):
     root: (
@@ -1014,6 +1056,7 @@ class A2AError(
         | UnsupportedOperationError
         | ContentTypeNotSupportedError
         | InvalidAgentResponseError
+        | AuthenticatedExtendedCardNotConfiguredError
     )
     """
     A discriminated union of all standard JSON-RPC and A2A-specific error types.
@@ -1171,6 +1214,7 @@ class JSONRPCErrorResponse(A2ABaseModel):
         | UnsupportedOperationError
         | ContentTypeNotSupportedError
         | InvalidAgentResponseError
+        | AuthenticatedExtendedCardNotConfiguredError
     )
     """
     An object describing the error that occurred.
@@ -1327,7 +1371,7 @@ class Artifact(A2ABaseModel):
     """
     An optional, human-readable name for the artifact.
     """
-    parts: list[Part] = Field(..., min_length=1)
+    parts: list[Part]
     """
     An array of content parts that make up the artifact.
     """
@@ -1391,7 +1435,7 @@ class Message(A2ABaseModel):
     """
     Optional metadata for extensions. The key is an extension-specific identifier.
     """
-    parts: list[Part] = Field(..., min_length=1)
+    parts: list[Part]
     """
     An array of content parts that form the message body. A message can be
     composed of multiple parts of different types (e.g., text and files).
@@ -1626,6 +1670,7 @@ class A2ARequest(
         | TaskResubscriptionRequest
         | ListTaskPushNotificationConfigRequest
         | DeleteTaskPushNotificationConfigRequest
+        | GetAuthenticatedExtendedCardRequest
     ]
 ):
     root: (
@@ -1638,6 +1683,7 @@ class A2ARequest(
         | TaskResubscriptionRequest
         | ListTaskPushNotificationConfigRequest
         | DeleteTaskPushNotificationConfigRequest
+        | GetAuthenticatedExtendedCardRequest
     )
     """
     A discriminated union representing all possible JSON-RPC 2.0 requests supported by the A2A specification.
@@ -1669,12 +1715,12 @@ class AgentCard(A2ABaseModel):
     """
     A declaration of optional capabilities supported by the agent.
     """
-    default_input_modes: list[str] = Field(..., min_length=1)
+    default_input_modes: list[str]
     """
     Default set of supported input MIME types for all skills, which can be
     overridden on a per-skill basis.
     """
-    default_output_modes: list[str] = Field(..., min_length=1)
+    default_output_modes: list[str]
     """
     Default set of supported output MIME types for all skills, which can be
     overridden on a per-skill basis.
@@ -1686,11 +1732,11 @@ class AgentCard(A2ABaseModel):
     A human-readable description of the agent, assisting users and other agents
     in understanding its purpose.
     """
-    documentation_url: AnyUrl | None = None
+    documentation_url: str | None = None
     """
     An optional URL to the agent's documentation.
     """
-    icon_url: AnyUrl | None = None
+    icon_url: str | None = None
     """
     An optional URL to an icon for the agent.
     """
@@ -1731,7 +1777,7 @@ class AgentCard(A2ABaseModel):
     """
     JSON Web Signatures computed for this AgentCard.
     """
-    skills: list[AgentSkill] = Field(..., min_length=1)
+    skills: list[AgentSkill]
     """
     The set of skills, or distinct capabilities, that the agent can perform.
     """
@@ -1740,18 +1786,33 @@ class AgentCard(A2ABaseModel):
     If true, the agent can provide an extended agent card with additional details
     to authenticated users. Defaults to false.
     """
-    url: AnyUrl = Field(..., examples=['https://api.example.com/a2a/v1'])
+    url: str = Field(..., examples=['https://api.example.com/a2a/v1'])
     """
     The preferred endpoint URL for interacting with the agent.
     This URL MUST support the transport specified by 'preferredTransport'.
     """
-    version: str = Field(
-        ...,
-        examples=['1.0.0'],
-        pattern='^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$',
-    )
+    version: str = Field(..., examples=['1.0.0'])
     """
-    The agent's own version number. Semantic Versioning MUST be used.
+    The agent's own version number. The format is defined by the provider.
+    """
+
+
+class GetAuthenticatedExtendedCardSuccessResponse(A2ABaseModel):
+    """
+    Represents a successful JSON-RPC response for the `agent/getAuthenticatedExtendedCard` method.
+    """
+
+    id: str | int | None = None
+    """
+    The identifier established by the client.
+    """
+    jsonrpc: Literal['2.0'] = '2.0'
+    """
+    The version of the JSON-RPC protocol. MUST be exactly "2.0".
+    """
+    result: AgentCard
+    """
+    The result is an Agent Card object.
     """
 
 
@@ -1774,7 +1835,7 @@ class Task(A2ABaseModel):
     """
     id: str
     """
-    A unique identifier for the task, generated by the client for a new task or provided by the agent.
+    A unique identifier for the task, generated by the server for a new task.
     """
     kind: Literal['task'] = 'task'
     """
@@ -1806,6 +1867,17 @@ class CancelTaskSuccessResponse(A2ABaseModel):
     result: Task
     """
     The result, containing the final state of the canceled Task object.
+    """
+
+
+class GetAuthenticatedExtendedCardResponse(
+    RootModel[
+        JSONRPCErrorResponse | GetAuthenticatedExtendedCardSuccessResponse
+    ]
+):
+    root: JSONRPCErrorResponse | GetAuthenticatedExtendedCardSuccessResponse
+    """
+    Represents a JSON-RPC response for the `agent/getAuthenticatedExtendedCard` method.
     """
 
 
@@ -1894,6 +1966,7 @@ class JSONRPCResponse(
         | GetTaskPushNotificationConfigSuccessResponse
         | ListTaskPushNotificationConfigSuccessResponse
         | DeleteTaskPushNotificationConfigSuccessResponse
+        | GetAuthenticatedExtendedCardSuccessResponse
     ]
 ):
     root: (
@@ -1906,6 +1979,7 @@ class JSONRPCResponse(
         | GetTaskPushNotificationConfigSuccessResponse
         | ListTaskPushNotificationConfigSuccessResponse
         | DeleteTaskPushNotificationConfigSuccessResponse
+        | GetAuthenticatedExtendedCardSuccessResponse
     )
     """
     A discriminated union representing all possible JSON-RPC 2.0 responses
