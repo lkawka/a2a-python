@@ -1,6 +1,6 @@
 """A2A extensions."""
 
-from .base import Extension
-from . import common, trace
+from a2a.extensions.base import Extension
+from a2a.extensions import common, trace
 
 __all__ = ['Extension', 'common', 'trace']
