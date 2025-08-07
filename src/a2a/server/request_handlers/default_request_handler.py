@@ -2,7 +2,7 @@ import asyncio
 import logging
 
 from collections.abc import AsyncGenerator
-from typing import cast
+from typing import Any, cast
 
 from a2a.server.agent_execution import (
     AgentExecutor,
@@ -26,6 +26,7 @@ from a2a.server.tasks import (
     TaskManager,
     TaskStore,
 )
+from a2a.extensions.base import Extension
 from a2a.types import (
     DeleteTaskPushNotificationConfigParams,
     GetTaskPushNotificationConfigParams,
@@ -101,6 +102,12 @@ class DefaultRequestHandler(RequestHandler):
         # TODO: Likely want an interface for managing this, like AgentExecutionManager.
         self._running_agents = {}
         self._running_agents_lock = asyncio.Lock()
+        self._extensions: list[Extension] = []
+
+    def install_extension(self, extension: Extension, server: Any) -> None:
+        """Installs an extension on the server."""
+        extension.install(server)
+        self._extensions.append(extension)
 
     async def on_get_task(
         self,
@@ -182,6 +189,9 @@ class DefaultRequestHandler(RequestHandler):
         Returns:
             A tuple of (task_manager, task_id, queue, result_aggregator, producer_task)
         """
+        for extension in self._extensions:
+            extension.on_server_message(params.message)
+
         # Create task manager and validate existing task
         task_manager = TaskManager(
             task_id=params.message.task_id,

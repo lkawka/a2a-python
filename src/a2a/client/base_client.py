@@ -11,6 +11,7 @@ from a2a.client.client_task_manager import ClientTaskManager
 from a2a.client.errors import A2AClientInvalidStateError
 from a2a.client.middleware import ClientCallInterceptor
 from a2a.client.transports.base import ClientTransport
+from a2a.extensions.base import Extension
 from a2a.types import (
     AgentCard,
     GetTaskPushNotificationConfigParams,
@@ -41,6 +42,12 @@ class BaseClient(Client):
         self._card = card
         self._config = config
         self._transport = transport
+        self._extensions: list[Extension] = []
+
+    def install_extension(self, extension: Extension) -> None:
+        """Installs an extension on the client."""
+        extension.install(self)
+        self._extensions.append(extension)
 
     async def send_message(
         self,
@@ -61,6 +68,9 @@ class BaseClient(Client):
         Yields:
             An async iterator of `ClientEvent` or a final `Message` response.
         """
+        for extension in self._extensions:
+            extension.on_client_message(request)
+
         config = MessageSendConfiguration(
             accepted_output_modes=self._config.accepted_output_modes,
             blocking=not self._config.polling,
