@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from datetime import datetime
+import time
+import uuid
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
@@ -51,7 +53,7 @@ class Step(A2ABaseModel):
     additional_attributes: dict[str, str] | None = None
     latency: int | None = None
     start_time: datetime
-    end_time: datetime
+    end_time: datetime | None = None
 
 
 class ResponseTrace(A2ABaseModel):
@@ -64,18 +66,81 @@ class ResponseTrace(A2ABaseModel):
 class TraceExtension(Extension):
     """An extension for traceability."""
 
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+        self.traces: dict[str, ResponseTrace] = {}
+        self._current_steps: dict[str, Step] = {}
+
+    def _generate_id(self, prefix: str) -> str:
+        return f'{prefix}-{uuid.uuid4()}'
+
+    def start_trace(self) -> ResponseTrace:
+        """Starts a new trace."""
+        trace_id = self._generate_id('trace')
+        trace = ResponseTrace(trace_id=trace_id, steps=[])
+        self.traces[trace_id] = trace
+        return trace
+
+    def start_step(
+        self,
+        trace_id: str,
+        parent_step_id: str | None,
+        call_type: CallTypeEnum,
+        step_action: StepAction,
+    ) -> Step:
+        """Starts a new step."""
+        step_id = self._generate_id('step')
+        step = Step(
+            step_id=step_id,
+            trace_id=trace_id,
+            parent_step_id=parent_step_id,
+            call_type=call_type,
+            step_action=step_action,
+            start_time=datetime.now(timezone.utc),
+        )
+        self._current_steps[step_id] = step
+        return step
+
+    def end_step(
+        self,
+        step_id: str,
+        cost: int | None = None,
+        total_tokens: int | None = None,
+        additional_attributes: dict[str, str] | None = None,
+    ) -> None:
+        """Ends a step."""
+        if step_id not in self._current_steps:
+            return
+
+        step = self._current_steps.pop(step_id)
+        step.end_time = datetime.now(timezone.utc)
+        step.latency = int(
+            (step.end_time - step.start_time).total_seconds() * 1000
+        )
+        step.cost = cost
+        step.total_tokens = total_tokens
+        step.additional_attributes = additional_attributes
+
+        if step.trace_id in self.traces:
+            self.traces[step.trace_id].steps.append(step)
+
     def on_client_message(self, message: Any) -> None:
         """Appends trace information to the message."""
-        # This is a placeholder implementation.
+        trace = self.start_trace()
         if message.metadata is None:
             message.metadata = {}
-        message.metadata['trace'] = 'client-trace'
+        message.metadata['trace'] = trace.model_dump(mode='json')
 
     def on_server_message(self, message: Any) -> None:
         """Processes trace information from the message."""
-        # This is a placeholder implementation.
-        if hasattr(message, 'metadata') and 'trace' in message.metadata:
-            print(f"Received trace: {message.metadata['trace']}")
+        if (
+            hasattr(message, 'metadata')
+            and message.metadata is not None
+            and 'trace' in message.metadata
+        ):
+            trace_data = message.metadata['trace']
+            trace = ResponseTrace.model_validate(trace_data)
+            self.traces[trace.trace_id] = trace
 
 
 AgentInvocation.model_rebuild()

@@ -27,6 +27,12 @@ from a2a.server.tasks import (
     TaskStore,
 )
 from a2a.extensions.base import Extension
+from a2a.extensions.trace import (
+    CallTypeEnum,
+    StepAction,
+    ToolInvocation,
+    TraceExtension,
+)
 from a2a.types import (
     DeleteTaskPushNotificationConfigParams,
     GetTaskPushNotificationConfigParams,
@@ -176,8 +182,39 @@ class DefaultRequestHandler(RequestHandler):
             request: The request context for the agent.
             queue: The event queue for the agent to publish to.
         """
-        await self.agent_executor.execute(request, queue)
+        await self.agent_executor.execute(request, queue, self)
         await queue.close()
+
+    async def handle_tool_call(
+        self,
+        trace_id: str,
+        parent_step_id: str,
+        tool_name: str,
+        parameters: dict[str, Any],
+    ) -> None:
+        """Handles a tool call from the agent executor."""
+        trace_extension: TraceExtension | None = None
+        for extension in self._extensions:
+            if isinstance(extension, TraceExtension):
+                trace_extension = cast(TraceExtension, extension)
+
+        if not trace_extension:
+            return
+
+        step = trace_extension.start_step(
+            trace_id=trace_id,
+            parent_step_id=parent_step_id,
+            call_type=CallTypeEnum.TOOL,
+            step_action=StepAction(
+                tool_invocation=ToolInvocation(
+                    tool_name=tool_name,
+                    parameters=parameters,
+                )
+            ),
+        )
+        # In a real implementation, you would execute the tool here.
+        # For this example, we'll just end the step immediately.
+        trace_extension.end_step(step.step_id)
 
     async def _setup_message_execution(
         self,

@@ -5,7 +5,7 @@ import pytest
 from a2a.client.base_client import BaseClient
 from a2a.extensions.trace import TraceExtension
 from a2a.server.request_handlers.default_request_handler import DefaultRequestHandler
-from a2a.types import Message, TextPart
+from a2a.types import Message, TextPart, Part, Role
 
 
 @pytest.mark.asyncio
@@ -22,8 +22,8 @@ async def test_trace_extension():
 
     message = Message(
         message_id='test_message',
-        role='user',
-        parts=[TextPart(text='Hello, world!')],
+        role=Role.user,
+        parts=[Part(TextPart(text='Hello, world!'))],
     )
 
     # Simulate client sending a message
@@ -31,7 +31,8 @@ async def test_trace_extension():
         extension.on_client_message(message)
 
     assert 'trace' in message.metadata
-    assert message.metadata['trace'] == 'client-trace'
+    # The trace_id field is serialized as traceId due to camelCase alias generator
+    assert isinstance(message.metadata['trace']['traceId'], str)
 
     # Simulate server receiving a message
     for extension in server_handler._extensions:
