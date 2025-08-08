@@ -30,7 +30,7 @@ class TestNewAgentTextMessage:
         # Exercise - with a fixed uuid for testing
         with patch(
             'uuid.uuid4',
-            return_value=uuid.UUID('12345678-1234-5678-1234-567812345678'),
+            return_value=uuid.UUID('26a78b4e-58de-44b7-bea4-082241ff3447'),
         ):
             message = new_agent_text_message(text)
 
@@ -38,7 +38,7 @@ class TestNewAgentTextMessage:
         assert message.role == Role.agent
         assert len(message.parts) == 1
         assert message.parts[0].root.text == text
-        assert message.message_id == '12345678-1234-5678-1234-567812345678'
+        assert message.message_id == '26a78b4e-58de-44b7-bea4-082241ff3447'
         assert message.task_id is None
         assert message.context_id is None
 
@@ -50,14 +50,14 @@ class TestNewAgentTextMessage:
         # Exercise
         with patch(
             'uuid.uuid4',
-            return_value=uuid.UUID('12345678-1234-5678-1234-567812345678'),
+            return_value=uuid.UUID('26a78b4e-58de-44b7-bea4-082241ff3447'),
         ):
             message = new_agent_text_message(text, context_id=context_id)
 
         # Verify
         assert message.role == Role.agent
         assert message.parts[0].root.text == text
-        assert message.message_id == '12345678-1234-5678-1234-567812345678'
+        assert message.message_id == '26a78b4e-58de-44b7-bea4-082241ff3447'
         assert message.context_id == context_id
         assert message.task_id is None
 
@@ -69,14 +69,14 @@ class TestNewAgentTextMessage:
         # Exercise
         with patch(
             'uuid.uuid4',
-            return_value=uuid.UUID('12345678-1234-5678-1234-567812345678'),
+            return_value=uuid.UUID('26a78b4e-58de-44b7-bea4-082241ff3447'),
         ):
             message = new_agent_text_message(text, task_id=task_id)
 
         # Verify
         assert message.role == Role.agent
         assert message.parts[0].root.text == text
-        assert message.message_id == '12345678-1234-5678-1234-567812345678'
+        assert message.message_id == '26a78b4e-58de-44b7-bea4-082241ff3447'
         assert message.task_id == task_id
         assert message.context_id is None
 
@@ -89,7 +89,7 @@ class TestNewAgentTextMessage:
         # Exercise
         with patch(
             'uuid.uuid4',
-            return_value=uuid.UUID('12345678-1234-5678-1234-567812345678'),
+            return_value=uuid.UUID('26a78b4e-58de-44b7-bea4-082241ff3447'),
         ):
             message = new_agent_text_message(
                 text, context_id=context_id, task_id=task_id
@@ -98,7 +98,7 @@ class TestNewAgentTextMessage:
         # Verify
         assert message.role == Role.agent
         assert message.parts[0].root.text == text
-        assert message.message_id == '12345678-1234-5678-1234-567812345678'
+        assert message.message_id == '26a78b4e-58de-44b7-bea4-082241ff3447'
         assert message.context_id == context_id
         assert message.task_id == task_id
 
@@ -109,14 +109,14 @@ class TestNewAgentTextMessage:
         # Exercise
         with patch(
             'uuid.uuid4',
-            return_value=uuid.UUID('12345678-1234-5678-1234-567812345678'),
+            return_value=uuid.UUID('26a78b4e-58de-44b7-bea4-082241ff3447'),
         ):
             message = new_agent_text_message(text)
 
         # Verify
         assert message.role == Role.agent
         assert message.parts[0].root.text == ''
-        assert message.message_id == '12345678-1234-5678-1234-567812345678'
+        assert message.message_id == '26a78b4e-58de-44b7-bea4-082241ff3447'
 
 
 class TestNewAgentPartsMessage:
@@ -324,7 +324,7 @@ class TestGetMessageText:
         message = Message(
             role=Role.agent,
             parts=[Part(root=TextPart(text='Hello world'))],
-            message_id='test-message-id',
+            message_id='243fd82e-36c6-4e09-8835-56665053bfd4',
         )
 
         # Exercise
@@ -342,7 +342,7 @@ class TestGetMessageText:
                 Part(root=TextPart(text='Second line')),
                 Part(root=TextPart(text='Third line')),
             ],
-            message_id='test-message-id',
+            message_id='243fd82e-36c6-4e09-8835-56665053bfd4',
         )
 
         # Exercise
@@ -360,7 +360,7 @@ class TestGetMessageText:
                 Part(root=TextPart(text='Second part')),
                 Part(root=TextPart(text='Third part')),
             ],
-            message_id='test-message-id',
+            message_id='243fd82e-36c6-4e09-8835-56665053bfd4',
         )
 
         # Exercise
@@ -374,7 +374,7 @@ class TestGetMessageText:
         message = Message(
             role=Role.agent,
             parts=[],
-            message_id='test-message-id',
+            message_id='243fd82e-36c6-4e09-8835-56665053bfd4',
         )
 
         # Exercise

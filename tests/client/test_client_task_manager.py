@@ -27,8 +27,8 @@ def task_manager():
 @pytest.fixture
 def sample_task():
     return Task(
-        id='task123',
-        context_id='context456',
+        id='eede470e-ae8f-4910-ba05-085d45dc43c6',
+        context_id='9a84655d-3956-4410-ba58-2923639254bd',
         status=TaskStatus(state=TaskState.working),
         history=[],
         artifacts=[],
@@ -38,7 +38,7 @@ def sample_task():
 @pytest.fixture
 def sample_message():
     return Message(
-        message_id='msg1',
+        message_id='87c8541d-f773-4825-bbb1-f518727231f2',
         role=Role.user,
         parts=[Part(root=TextPart(text='Hello'))],
     )

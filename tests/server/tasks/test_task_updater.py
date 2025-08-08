@@ -41,7 +41,7 @@ def sample_message():
         role=Role.agent,
         task_id='test-task-id',
         context_id='test-context-id',
-        message_id='test-message-id',
+        message_id='243fd82e-36c6-4e09-8835-56665053bfd4',
         parts=[Part(root=TextPart(text='Test message'))],
     )
 
@@ -137,7 +137,7 @@ async def test_add_artifact_generates_id(
     task_updater, event_queue, sample_parts
 ):
     """Test add_artifact generates an ID if artifact_id is None."""
-    known_uuid = uuid.UUID('12345678-1234-5678-1234-567812345678')
+    known_uuid = uuid.UUID('26a78b4e-58de-44b7-bea4-082241ff3447')
     with patch('uuid.uuid4', return_value=known_uuid):
         await task_updater.add_artifact(parts=sample_parts, artifact_id=None)
 
@@ -272,14 +272,14 @@ def test_new_agent_message(task_updater, sample_parts):
     """Test creating a new agent message."""
     with patch(
         'uuid.uuid4',
-        return_value=uuid.UUID('12345678-1234-5678-1234-567812345678'),
+        return_value=uuid.UUID('26a78b4e-58de-44b7-bea4-082241ff3447'),
     ):
         message = task_updater.new_agent_message(parts=sample_parts)
 
     assert message.role == Role.agent
     assert message.task_id == 'test-task-id'
     assert message.context_id == 'test-context-id'
-    assert message.message_id == '12345678-1234-5678-1234-567812345678'
+    assert message.message_id == '26a78b4e-58de-44b7-bea4-082241ff3447'
     assert message.parts == sample_parts
     assert message.metadata is None
 
@@ -290,7 +290,7 @@ def test_new_agent_message_with_metadata(task_updater, sample_parts):
 
     with patch(
         'uuid.uuid4',
-        return_value=uuid.UUID('12345678-1234-5678-1234-567812345678'),
+        return_value=uuid.UUID('26a78b4e-58de-44b7-bea4-082241ff3447'),
     ):
         message = task_updater.new_agent_message(
             parts=sample_parts, metadata=metadata
@@ -299,7 +299,7 @@ def test_new_agent_message_with_metadata(task_updater, sample_parts):
     assert message.role == Role.agent
     assert message.task_id == 'test-task-id'
     assert message.context_id == 'test-context-id'
-    assert message.message_id == '12345678-1234-5678-1234-567812345678'
+    assert message.message_id == '26a78b4e-58de-44b7-bea4-082241ff3447'
     assert message.parts == sample_parts
     assert message.metadata == metadata
 

@@ -78,7 +78,7 @@ from a2a.utils.errors import ServerError
 
 MINIMAL_TASK: dict[str, Any] = {
     'id': 'task_123',
-    'contextId': 'session-xyz',
+    'contextId': '598c0e6f-72c2-48fc-803a-15d693622c6f',
     'status': {'state': 'submitted'},
     'kind': 'task',
 }
@@ -228,7 +228,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         _mock_builder_build.return_value = RequestContext(
             request=MagicMock(),
             task_id='task_123',
-            context_id='session-xyz',
+            context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
             task=None,
             related_tasks=None,
         )
@@ -335,7 +335,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         _mock_builder_build.return_value = RequestContext(
             request=MagicMock(),
             task_id='task_123',
-            context_id='session-xyz',
+            context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
             task=None,
             related_tasks=None,
         )
@@ -344,14 +344,14 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             Task(**MINIMAL_TASK),
             TaskArtifactUpdateEvent(
                 task_id='task_123',
-                context_id='session-xyz',
+                context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 artifact=Artifact(
                     artifact_id='11', parts=[Part(TextPart(text='text'))]
                 ),
             ),
             TaskStatusUpdateEvent(
                 task_id='task_123',
-                context_id='session-xyz',
+                context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 status=TaskStatus(state=TaskState.completed),
                 final=True,
             ),
@@ -401,14 +401,14 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             mock_task,
             TaskArtifactUpdateEvent(
                 task_id='task_123',
-                context_id='session-xyz',
+                context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 artifact=Artifact(
                     artifact_id='11', parts=[Part(TextPart(text='text'))]
                 ),
             ),
             TaskStatusUpdateEvent(
                 task_id='task_123',
-                context_id='session-xyz',
+                context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 status=TaskStatus(state=TaskState.working),
                 final=True,
             ),
@@ -543,7 +543,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         _mock_builder_build.return_value = RequestContext(
             request=MagicMock(),
             task_id='task_123',
-            context_id='session-xyz',
+            context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
             task=None,
             related_tasks=None,
         )
@@ -553,14 +553,14 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             Task(**MINIMAL_TASK),
             TaskArtifactUpdateEvent(
                 task_id='task_123',
-                context_id='session-xyz',
+                context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 artifact=Artifact(
                     artifact_id='11', parts=[Part(TextPart(text='text'))]
                 ),
             ),
             TaskStatusUpdateEvent(
                 task_id='task_123',
-                context_id='session-xyz',
+                context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 status=TaskStatus(state=TaskState.completed),
                 final=True,
             ),
@@ -597,7 +597,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
                 call(
                     'http://example.com',
                     json={
-                        'contextId': 'session-xyz',
+                        'contextId': '598c0e6f-72c2-48fc-803a-15d693622c6f',
                         'id': 'task_123',
                         'kind': 'task',
                         'status': {'state': 'submitted'},
@@ -618,7 +618,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
                                 ],
                             }
                         ],
-                        'contextId': 'session-xyz',
+                        'contextId': '598c0e6f-72c2-48fc-803a-15d693622c6f',
                         'id': 'task_123',
                         'kind': 'task',
                         'status': {'state': 'submitted'},
@@ -639,7 +639,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
                                 ],
                             }
                         ],
-                        'contextId': 'session-xyz',
+                        'contextId': '598c0e6f-72c2-48fc-803a-15d693622c6f',
                         'id': 'task_123',
                         'kind': 'task',
                         'status': {'state': 'completed'},
@@ -664,14 +664,14 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         events: list[Any] = [
             TaskArtifactUpdateEvent(
                 task_id='task_123',
-                context_id='session-xyz',
+                context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 artifact=Artifact(
                     artifact_id='11', parts=[Part(TextPart(text='text'))]
                 ),
             ),
             TaskStatusUpdateEvent(
                 task_id='task_123',
-                context_id='session-xyz',
+                context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 status=TaskStatus(state=TaskState.completed),
                 final=True,
             ),

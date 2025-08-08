@@ -28,7 +28,7 @@ from a2a.utils.errors import ServerError
 
 MINIMAL_TASK: dict[str, Any] = {
     'id': '123',
-    'context_id': 'session-xyz',
+    'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
     'status': {'state': 'submitted'},
     'kind': 'task',
 }
@@ -129,14 +129,14 @@ async def test_consume_all_multiple_events(
         Task(**MINIMAL_TASK),
         TaskArtifactUpdateEvent(
             task_id='task_123',
-            context_id='session-xyz',
+            context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
             artifact=Artifact(
                 artifact_id='11', parts=[Part(TextPart(text='text'))]
             ),
         ),
         TaskStatusUpdateEvent(
             task_id='task_123',
-            context_id='session-xyz',
+            context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
             status=TaskStatus(state=TaskState.working),
             final=True,
         ),
@@ -171,7 +171,7 @@ async def test_consume_until_message(
         Task(**MINIMAL_TASK),
         TaskArtifactUpdateEvent(
             task_id='task_123',
-            context_id='session-xyz',
+            context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
             artifact=Artifact(
                 artifact_id='11', parts=[Part(TextPart(text='text'))]
             ),
@@ -179,7 +179,7 @@ async def test_consume_until_message(
         Message(**MESSAGE_PAYLOAD),
         TaskStatusUpdateEvent(
             task_id='task_123',
-            context_id='session-xyz',
+            context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
             status=TaskStatus(state=TaskState.working),
             final=True,
         ),

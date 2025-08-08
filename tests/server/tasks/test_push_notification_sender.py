@@ -15,10 +15,13 @@ from a2a.types import (
 )
 
 
-def create_sample_task(task_id='task123', status_state=TaskState.completed):
+def create_sample_task(
+    task_id='eede470e-ae8f-4910-ba05-085d45dc43c6',
+    status_state=TaskState.completed,
+):
     return Task(
         id=task_id,
-        context_id='ctx456',
+        context_id='a2e44180-c4f5-4bdb-9c57-5151b145a0cd',
         status=TaskStatus(state=status_state),
     )
 
@@ -43,7 +46,7 @@ class TestBasePushNotificationSender(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(self.sender._config_store, self.mock_config_store)
 
     async def test_send_notification_success(self):
-        task_id = 'task_send_success'
+        task_id = '54a31351-1de9-4dd1-8e57-64a1ff99b2b1'
         task_data = create_sample_task(task_id=task_id)
         config = create_sample_push_config(url='http://notify.me/here')
         self.mock_config_store.get_info.return_value = [config]
@@ -65,7 +68,7 @@ class TestBasePushNotificationSender(unittest.IsolatedAsyncioTestCase):
         mock_response.raise_for_status.assert_called_once()
 
     async def test_send_notification_with_token_success(self):
-        task_id = 'task_send_success'
+        task_id = '54a31351-1de9-4dd1-8e57-64a1ff99b2b1'
         task_data = create_sample_task(task_id=task_id)
         config = create_sample_push_config(
             url='http://notify.me/here', token='unique_token'

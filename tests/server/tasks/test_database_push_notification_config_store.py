@@ -84,8 +84,8 @@ task_status_submitted = TaskStatus(
     state=TaskState.submitted, timestamp='2023-01-01T00:00:00Z'
 )
 MINIMAL_TASK_OBJ = Task(
-    id='task-abc',
-    context_id='session-xyz',
+    id='ea719c56-e398-425e-b02c-49fd77b7c156',
+    context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
     status=task_status_submitted,
     kind='task',
     metadata={'test_key': 'test_value'},

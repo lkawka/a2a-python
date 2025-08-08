@@ -32,15 +32,15 @@ TEXT_PART_DATA: dict[str, Any] = {'type': 'text', 'text': 'Hello'}
 MINIMAL_MESSAGE_USER: dict[str, Any] = {
     'role': 'user',
     'parts': [TEXT_PART_DATA],
-    'message_id': 'msg-123',
+    'message_id': '4a90ce5d-eda0-44be-afae-a709621eb63c',
     'type': 'message',
 }
 
 MINIMAL_TASK_STATUS: dict[str, Any] = {'state': 'submitted'}
 
 MINIMAL_TASK: dict[str, Any] = {
-    'id': 'task-abc',
-    'context_id': 'session-xyz',
+    'id': 'ea719c56-e398-425e-b02c-49fd77b7c156',
+    'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
     'status': MINIMAL_TASK_STATUS,
     'type': 'task',
 }
@@ -65,7 +65,7 @@ def test_create_task_obj_generates_context_id():
     message_no_context_id = Message(
         role=Role.user,
         parts=[Part(root=TextPart(text='test'))],
-        message_id='msg-no-ctx',
+        message_id='e4c28e7f-10f8-476a-a971-4c1e64bb2156',
         task_id='task-from-msg',  # Provide a task_id to differentiate from generated task.id
     )
     send_params = MessageSendParams(message=message_no_context_id)
@@ -105,8 +105,8 @@ def test_create_task_obj_generates_context_id():
 def test_append_artifact_to_task():
     # Prepare base task
     task = Task(**MINIMAL_TASK)
-    assert task.id == 'task-abc'
-    assert task.context_id == 'session-xyz'
+    assert str(task.id) == 'ea719c56-e398-425e-b02c-49fd77b7c156'
+    assert str(task.context_id) == '598c0e6f-72c2-48fc-803a-15d693622c6f'
     assert task.status.state == TaskState.submitted
     assert task.history is None
     assert task.artifacts is None
@@ -114,7 +114,8 @@ def test_append_artifact_to_task():
 
     # Prepare appending artifact and event
     artifact_1 = Artifact(
-        artifact_id='artifact-123', parts=[Part(root=TextPart(text='Hello'))]
+        artifact_id='9ecc2482-f6bd-4ecc-a46c-771c5f49f5de',
+        parts=[Part(root=TextPart(text='Hello'))],
     )
     append_event_1 = TaskArtifactUpdateEvent(
         artifact=artifact_1, append=False, task_id='123', context_id='123'
@@ -123,14 +124,16 @@ def test_append_artifact_to_task():
     # Test adding a new artifact (not appending)
     append_artifact_to_task(task, append_event_1)
     assert len(task.artifacts) == 1
-    assert task.artifacts[0].artifact_id == 'artifact-123'
+    assert (
+        task.artifacts[0].artifact_id == '9ecc2482-f6bd-4ecc-a46c-771c5f49f5de'
+    )
     assert task.artifacts[0].name is None
     assert len(task.artifacts[0].parts) == 1
     assert task.artifacts[0].parts[0].root.text == 'Hello'
 
     # Test replacing the artifact
     artifact_2 = Artifact(
-        artifact_id='artifact-123',
+        artifact_id='9ecc2482-f6bd-4ecc-a46c-771c5f49f5de',
         name='updated name',
         parts=[Part(root=TextPart(text='Updated'))],
     )
@@ -139,14 +142,17 @@ def test_append_artifact_to_task():
     )
     append_artifact_to_task(task, append_event_2)
     assert len(task.artifacts) == 1  # Should still have one artifact
-    assert task.artifacts[0].artifact_id == 'artifact-123'
+    assert (
+        task.artifacts[0].artifact_id == '9ecc2482-f6bd-4ecc-a46c-771c5f49f5de'
+    )
     assert task.artifacts[0].name == 'updated name'
     assert len(task.artifacts[0].parts) == 1
     assert task.artifacts[0].parts[0].root.text == 'Updated'
 
     # Test appending parts to an existing artifact
     artifact_with_parts = Artifact(
-        artifact_id='artifact-123', parts=[Part(root=TextPart(text='Part 2'))]
+        artifact_id='9ecc2482-f6bd-4ecc-a46c-771c5f49f5de',
+        parts=[Part(root=TextPart(text='Part 2'))],
     )
     append_event_3 = TaskArtifactUpdateEvent(
         artifact=artifact_with_parts,
@@ -172,7 +178,9 @@ def test_append_artifact_to_task():
     )
     append_artifact_to_task(task, append_event_4)
     assert len(task.artifacts) == 2
-    assert task.artifacts[0].artifact_id == 'artifact-123'
+    assert (
+        task.artifacts[0].artifact_id == '9ecc2482-f6bd-4ecc-a46c-771c5f49f5de'
+    )
     assert task.artifacts[1].artifact_id == 'new_artifact'
     assert len(task.artifacts[0].parts) == 2
     assert len(task.artifacts[1].parts) == 1

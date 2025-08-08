@@ -82,7 +82,7 @@ async def test_a2a_client_send_message(
     client._transport.send_message = AsyncMock(return_value=mock_response_task)
 
     message = Message(
-        message_id='msg-123',
+        message_id='4a90ce5d-eda0-44be-afae-a709621eb63c',
         role=Role.user,
         parts=[Part(root=TextPart(text='Hello'))],
     )

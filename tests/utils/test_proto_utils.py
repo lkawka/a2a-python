@@ -14,7 +14,7 @@ from a2a.utils.errors import ServerError
 @pytest.fixture
 def sample_message() -> types.Message:
     return types.Message(
-        message_id='msg-1',
+        message_id='15957e91-63e6-40ac-8205-1d1ffb09a5b2',
         context_id='ctx-1',
         task_id='task-1',
         role=types.Role.user,

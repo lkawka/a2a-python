@@ -101,7 +101,7 @@ DATA_PART_DATA: dict[str, Any] = {'kind': 'data', 'data': {'key': 'value'}}
 MINIMAL_MESSAGE_USER: dict[str, Any] = {
     'role': 'user',
     'parts': [TEXT_PART_DATA],
-    'message_id': 'msg-123',
+    'message_id': '4a90ce5d-eda0-44be-afae-a709621eb63c',
     'kind': 'message',
 }
 
@@ -289,7 +289,11 @@ def test_starlette_rpc_endpoint_custom_url(
     """Test the RPC endpoint with a custom URL."""
     # Provide a valid Task object as the return value
     task_status = TaskStatus(**MINIMAL_TASK_STATUS)
-    task = Task(id='task1', context_id='ctx1', status=task_status)
+    task = Task(
+        id='task1',
+        context_id='06cc947f-8946-4bde-b776-165462407e57',
+        status=task_status,
+    )
     handler.on_get_task.return_value = task
     client = TestClient(app.build(rpc_url='/api/rpc'))
     response = client.post(
@@ -312,7 +316,11 @@ def test_fastapi_rpc_endpoint_custom_url(
     """Test the RPC endpoint with a custom URL."""
     # Provide a valid Task object as the return value
     task_status = TaskStatus(**MINIMAL_TASK_STATUS)
-    task = Task(id='task1', context_id='ctx1', status=task_status)
+    task = Task(
+        id='task1',
+        context_id='06cc947f-8946-4bde-b776-165462407e57',
+        status=task_status,
+    )
     handler.on_get_task.return_value = task
     client = TestClient(app.build(rpc_url='/api/rpc'))
     response = client.post(
@@ -415,7 +423,7 @@ def test_send_message(client: TestClient, handler: mock.AsyncMock):
     task_status = TaskStatus(**MINIMAL_TASK_STATUS)
     mock_task = Task(
         id='task1',
-        context_id='session-xyz',
+        context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
         status=task_status,
     )
     handler.on_message_send.return_value = mock_task
@@ -434,7 +442,7 @@ def test_send_message(client: TestClient, handler: mock.AsyncMock):
                     'message_id': '111',
                     'kind': 'message',
                     'task_id': 'task1',
-                    'context_id': 'session-xyz',
+                    'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
                 }
             },
         },
@@ -456,7 +464,11 @@ def test_cancel_task(client: TestClient, handler: mock.AsyncMock):
     # Setup mock response
     task_status = TaskStatus(**MINIMAL_TASK_STATUS)
     task_status.state = TaskState.canceled  # 'cancelled' #
-    task = Task(id='task1', context_id='ctx1', status=task_status)
+    task = Task(
+        id='task1',
+        context_id='06cc947f-8946-4bde-b776-165462407e57',
+        status=task_status,
+    )
     handler.on_cancel_task.return_value = task
 
     # Send request
@@ -484,7 +496,11 @@ def test_get_task(client: TestClient, handler: mock.AsyncMock):
     """Test getting a task."""
     # Setup mock response
     task_status = TaskStatus(**MINIMAL_TASK_STATUS)
-    task = Task(id='task1', context_id='ctx1', status=task_status)
+    task = Task(
+        id='task1',
+        context_id='06cc947f-8946-4bde-b776-165462407e57',
+        status=task_status,
+    )
     handler.on_get_task.return_value = task  # JSONRPCResponse(root=task)
 
     # Send request
@@ -513,7 +529,7 @@ def test_set_push_notification_config(
     """Test setting push notification configuration."""
     # Setup mock response
     task_push_config = TaskPushNotificationConfig(
-        task_id='t2',
+        task_id='10b55431-5f90-4c69-b1b8-a43e9b6510af',
         push_notification_config=PushNotificationConfig(
             url='https://example.com', token='secret-token'
         ),
@@ -528,7 +544,7 @@ def test_set_push_notification_config(
             'id': '123',
             'method': 'tasks/pushNotificationConfig/set',
             'params': {
-                'task_id': 't2',
+                'task_id': '10b55431-5f90-4c69-b1b8-a43e9b6510af',
                 'pushNotificationConfig': {
                     'url': 'https://example.com',
                     'token': 'secret-token',
@@ -600,7 +616,7 @@ def test_server_auth(app: A2AStarletteApplication, handler: mock.AsyncMock):
 
     # Set the output message to be the authenticated user name
     handler.on_message_send.side_effect = lambda params, context: Message(
-        context_id='session-xyz',
+        context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
         message_id='112',
         role=Role.agent,
         parts=[
@@ -622,7 +638,7 @@ def test_server_auth(app: A2AStarletteApplication, handler: mock.AsyncMock):
                     'message_id': '111',
                     'kind': 'message',
                     'task_id': 'task1',
-                    'context_id': 'session-xyz',
+                    'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
                 }
             },
         },
@@ -664,7 +680,7 @@ async def test_message_send_stream(
             task_artifact_update_event_data: dict[str, Any] = {
                 'artifact': artifact,
                 'task_id': 'task_id',
-                'context_id': 'session-xyz',
+                'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
                 'append': False,
                 'lastChunk': last[i],
                 'kind': 'artifact-update',
@@ -695,7 +711,7 @@ async def test_message_send_stream(
                         'message_id': '111',
                         'kind': 'message',
                         'task_id': 'task_id',
-                        'context_id': 'session-xyz',
+                        'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
                     }
                 },
             },
@@ -754,7 +770,7 @@ async def test_task_resubscription(
             task_artifact_update_event_data: dict[str, Any] = {
                 'artifact': artifact,
                 'task_id': 'task_id',
-                'context_id': 'session-xyz',
+                'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
                 'append': False,
                 'lastChunk': last[i],
                 'kind': 'artifact-update',

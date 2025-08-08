@@ -93,7 +93,11 @@ class TestResponseHelpers(unittest.TestCase):
         self.assertIsInstance(response_wrapper.root, JSONRPCErrorResponse)
         self.assertIsNone(response_wrapper.root.id)
 
-    def _create_sample_task(self, task_id='task123', context_id='ctx456'):
+    def _create_sample_task(
+        self,
+        task_id='eede470e-ae8f-4910-ba05-085d45dc43c6',
+        context_id='a2e44180-c4f5-4bdb-9c57-5151b145a0cd',
+    ):
         return Task(
             id=task_id,
             context_id=context_id,

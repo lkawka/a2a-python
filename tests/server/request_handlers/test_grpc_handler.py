@@ -64,7 +64,9 @@ async def test_send_message_success(
 ):
     """Test successful SendMessage call."""
     request_proto = a2a_pb2.SendMessageRequest(
-        request=a2a_pb2.Message(message_id='msg-1')
+        request=a2a_pb2.Message(
+            message_id='15957e91-63e6-40ac-8205-1d1ffb09a5b2'
+        )
     )
     response_model = types.Task(
         id='task-1',

@@ -79,15 +79,15 @@ AGENT_CARD_NO_URL_SUPPORTS_EXTENDED = AGENT_CARD_SUPPORTS_EXTENDED.model_copy(
 )
 
 MINIMAL_TASK: dict[str, Any] = {
-    'id': 'task-abc',
-    'contextId': 'session-xyz',
+    'id': 'ea719c56-e398-425e-b02c-49fd77b7c156',
+    'contextId': '598c0e6f-72c2-48fc-803a-15d693622c6f',
     'status': {'state': 'working'},
     'kind': 'task',
 }
 
 MINIMAL_CANCELLED_TASK: dict[str, Any] = {
-    'id': 'task-abc',
-    'contextId': 'session-xyz',
+    'id': 'ea719c56-e398-425e-b02c-49fd77b7c156',
+    'contextId': '598c0e6f-72c2-48fc-803a-15d693622c6f',
     'status': {'state': 'canceled'},
     'kind': 'task',
 }
@@ -539,7 +539,7 @@ class TestJsonRpcTransport:
         client = JsonRpcTransport(
             httpx_client=mock_httpx_client, agent_card=mock_agent_card
         )
-        params = TaskQueryParams(id='task-abc')
+        params = TaskQueryParams(id='ea719c56-e398-425e-b02c-49fd77b7c156')
         rpc_response = {
             'id': '123',
             'jsonrpc': '2.0',
@@ -567,7 +567,7 @@ class TestJsonRpcTransport:
         client = JsonRpcTransport(
             httpx_client=mock_httpx_client, agent_card=mock_agent_card
         )
-        params = TaskIdParams(id='task-abc')
+        params = TaskIdParams(id='ea719c56-e398-425e-b02c-49fd77b7c156')
         rpc_response = {
             'id': '123',
             'jsonrpc': '2.0',
@@ -596,7 +596,7 @@ class TestJsonRpcTransport:
             httpx_client=mock_httpx_client, agent_card=mock_agent_card
         )
         params = TaskPushNotificationConfig(
-            task_id='task-abc',
+            task_id='ea719c56-e398-425e-b02c-49fd77b7c156',
             push_notification_config=PushNotificationConfig(
                 url='http://callback.com'
             ),
@@ -625,9 +625,9 @@ class TestJsonRpcTransport:
         client = JsonRpcTransport(
             httpx_client=mock_httpx_client, agent_card=mock_agent_card
         )
-        params = TaskIdParams(id='task-abc')
+        params = TaskIdParams(id='ea719c56-e398-425e-b02c-49fd77b7c156')
         expected_response = TaskPushNotificationConfig(
-            task_id='task-abc',
+            task_id='ea719c56-e398-425e-b02c-49fd77b7c156',
             push_notification_config=PushNotificationConfig(
                 url='http://callback.com'
             ),

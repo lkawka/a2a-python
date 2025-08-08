@@ -67,7 +67,7 @@ def sample_message_send_params() -> MessageSendParams:
     return MessageSendParams(
         message=Message(
             role=Role.user,
-            message_id='msg-1',
+            message_id='15957e91-63e6-40ac-8205-1d1ffb09a5b2',
             parts=[Part(root=TextPart(text='Hello'))],
         )
     )

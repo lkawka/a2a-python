@@ -82,7 +82,9 @@ class DummyAgentExecutor(AgentExecutor):
 
 # Helper to create a simple task for tests
 def create_sample_task(
-    task_id='task1', status_state=TaskState.submitted, context_id='ctx1'
+    task_id='task1',
+    status_state=TaskState.submitted,
+    context_id='06cc947f-8946-4bde-b776-165462407e57',
 ) -> Task:
     return Task(
         id=task_id,
@@ -1374,7 +1376,7 @@ async def test_on_message_send_stream():
     message_params = MessageSendParams(
         message=Message(
             role=Role.user,
-            message_id='msg-123',
+            message_id='4a90ce5d-eda0-44be-afae-a709621eb63c',
             parts=[Part(root=TextPart(text='How are you?'))],
         ),
     )
@@ -1878,7 +1880,7 @@ async def test_on_message_send_task_id_provided_but_task_not_found():
             message_id='msg_nonexistent',
             parts=[Part(root=TextPart(text='Hello'))],
             task_id=task_id,
-            context_id='ctx1',
+            context_id='06cc947f-8946-4bde-b776-165462407e57',
         )
     )
 
@@ -1918,7 +1920,7 @@ async def test_on_message_send_stream_task_id_provided_but_task_not_found():
             message_id='msg_nonexistent_stream',
             parts=[Part(root=TextPart(text='Hello'))],
             task_id=task_id,
-            context_id='ctx1',
+            context_id='06cc947f-8946-4bde-b776-165462407e57',
         )
     )
 

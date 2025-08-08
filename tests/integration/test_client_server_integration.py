@@ -42,43 +42,45 @@ from a2a.types import (
 # --- Test Constants ---
 
 TASK_FROM_STREAM = Task(
-    id='task-123-stream',
-    context_id='ctx-456-stream',
+    id='0381ad4c-b528-443e-9bd4-fd21b18adf2d',
+    context_id='6a642495-71a9-44e8-ad9e-af3b6e645590',
     status=TaskStatus(state=TaskState.completed),
     kind='task',
 )
 
 TASK_FROM_BLOCKING = Task(
-    id='task-789-blocking',
-    context_id='ctx-101-blocking',
+    id='91eca72b-a3cc-461a-bb13-45ffc06eb8d0',
+    context_id='7ca58a2e-4a27-4415-b8f7-6ab2361602c3',
     status=TaskStatus(state=TaskState.completed),
     kind='task',
 )
 
 GET_TASK_RESPONSE = Task(
-    id='task-get-456',
-    context_id='ctx-get-789',
+    id='e71f6808-92b3-42fb-becf-5e95a3d6532f',
+    context_id='993fff08-67f2-4a4e-8844-3f9a5b17f216',
     status=TaskStatus(state=TaskState.working),
     kind='task',
 )
 
 CANCEL_TASK_RESPONSE = Task(
-    id='task-cancel-789',
-    context_id='ctx-cancel-101',
+    id='4a68dd5f-c3fd-482e-a3f3-45bc00ac3b88',
+    context_id='62602584-1308-4775-ab53-047349df43f9',
     status=TaskStatus(state=TaskState.canceled),
     kind='task',
 )
 
 CALLBACK_CONFIG = TaskPushNotificationConfig(
-    task_id='task-callback-123',
+    task_id='8fbb70a3-caad-413a-9b70-8acc37e8e885',
     push_notification_config=PushNotificationConfig(
-        id='pnc-abc', url='http://callback.example.com', token=''
+        id='028d975c-5deb-48b7-8352-a227ce665955',
+        url='http://callback.example.com',
+        token='',
     ),
 )
 
 RESUBSCRIBE_EVENT = TaskStatusUpdateEvent(
-    task_id='task-resub-456',
-    context_id='ctx-resub-789',
+    task_id='5fb71ea7-5e1d-42f0-a7c7-d9b41290f37d',
+    context_id='8a9fff07-0c62-46ed-8927-522d3a74a216',
     status=TaskStatus(state=TaskState.working),
     final=False,
 )

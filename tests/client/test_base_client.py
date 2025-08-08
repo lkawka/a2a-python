@@ -42,7 +42,7 @@ def sample_agent_card():
 def sample_message():
     return Message(
         role=Role.user,
-        message_id='msg-1',
+        message_id='15957e91-63e6-40ac-8205-1d1ffb09a5b2',
         parts=[Part(root=TextPart(text='Hello'))],
     )
 

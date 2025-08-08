@@ -21,24 +21,24 @@ class TestTask(unittest.TestCase):
 
     @patch('uuid.uuid4')
     def test_new_task_generates_ids(self, mock_uuid4):
-        mock_uuid = uuid.UUID('12345678-1234-5678-1234-567812345678')
+        mock_uuid = uuid.UUID('26a78b4e-58de-44b7-bea4-082241ff3447')
         mock_uuid4.return_value = mock_uuid
         message = Message(
             role=Role.user,
             parts=[Part(root=TextPart(text='test message'))],
-            message_id=str(uuid.uuid4()),
+            message_id=uuid.uuid4(),
         )
         task = new_task(message)
-        self.assertEqual(task.id, str(mock_uuid))
-        self.assertEqual(task.context_id, str(mock_uuid))
+        self.assertEqual(task.id, mock_uuid)
+        self.assertEqual(task.context_id, mock_uuid)
 
     def test_new_task_uses_provided_ids(self):
-        task_id = str(uuid.uuid4())
-        context_id = str(uuid.uuid4())
+        task_id = uuid.uuid4()
+        context_id = uuid.uuid4()
         message = Message(
             role=Role.user,
             parts=[Part(root=TextPart(text='test message'))],
-            message_id=str(uuid.uuid4()),
+            message_id=uuid.uuid4(),
             task_id=task_id,
             context_id=context_id,
         )
@@ -61,7 +61,7 @@ class TestTask(unittest.TestCase):
         context_id = str(uuid.uuid4())
         artifacts = [
             Artifact(
-                artifact_id='artifact_1',
+                artifact_id='78ae376b-6b1e-4b65-8bf8-7e3eae7d7e41',
                 parts=[Part(root=TextPart(text='some content'))],
             )
         ]
@@ -78,7 +78,7 @@ class TestTask(unittest.TestCase):
         context_id = str(uuid.uuid4())
         artifacts = [
             Artifact(
-                artifact_id='artifact_1',
+                artifact_id='78ae376b-6b1e-4b65-8bf8-7e3eae7d7e41',
                 parts=[Part(root=TextPart(text='some content'))],
             )
         ]
@@ -97,7 +97,7 @@ class TestTask(unittest.TestCase):
         context_id = str(uuid.uuid4())
         artifacts = [
             Artifact(
-                artifact_id='artifact_1',
+                artifact_id='78ae376b-6b1e-4b65-8bf8-7e3eae7d7e41',
                 parts=[Part(root=TextPart(text='some content'))],
             )
         ]
@@ -111,7 +111,7 @@ class TestTask(unittest.TestCase):
         context_id = str(uuid.uuid4())
         artifacts = [
             Artifact(
-                artifact_id='artifact_1',
+                artifact_id='78ae376b-6b1e-4b65-8bf8-7e3eae7d7e41',
                 parts=[Part(root=TextPart(text='some content'))],
             )
         ]

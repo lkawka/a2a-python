@@ -21,8 +21,8 @@ from a2a.utils.errors import ServerError
 
 
 MINIMAL_TASK: dict[str, Any] = {
-    'id': 'task-abc',
-    'context_id': 'session-xyz',
+    'id': 'ea719c56-e398-425e-b02c-49fd77b7c156',
+    'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
     'status': {'state': 'submitted'},
     'kind': 'task',
 }
@@ -104,7 +104,7 @@ async def test_save_task_event_status_update(
         message=Message(
             role=Role.agent,
             parts=[Part(TextPart(text='content'))],
-            message_id='message-id',
+            message_id='c222a603-645e-4c37-8f7b-e49f3ea80e9e',
         ),
     )
     event = TaskStatusUpdateEvent(
@@ -233,10 +233,10 @@ async def test_save_task_event_mismatched_id_raises_error(
     task_manager: TaskManager,
 ) -> None:
     """Test that save_task_event raises ServerError on task ID mismatch."""
-    # The task_manager is initialized with 'task-abc'
+    # The task_manager is initialized with 'ea719c56-e398-425e-b02c-49fd77b7c156'
     mismatched_task = Task(
         id='wrong-id',
-        context_id='session-xyz',
+        context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
         status=TaskStatus(state=TaskState.submitted),
     )
 

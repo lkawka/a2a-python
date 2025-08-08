@@ -64,7 +64,7 @@ def build_success_response(request: httpx.Request) -> httpx.Response:
         jsonrpc='2.0',
         result=Message(
             kind='message',
-            message_id='message-id',
+            message_id='c222a603-645e-4c37-8f7b-e49f3ea80e9e',
             role=Role.agent,
             parts=[],
         ),
@@ -75,7 +75,7 @@ def build_success_response(request: httpx.Request) -> httpx.Response:
 def build_message() -> Message:
     """Builds a minimal Message."""
     return Message(
-        message_id='msg1',
+        message_id='87c8541d-f773-4825-bbb1-f518727231f2',
         role=Role.user,
         parts=[],
     )

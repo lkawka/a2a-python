@@ -27,7 +27,7 @@ from a2a.types import (
 # Helper to create a simple message
 def create_sample_message(
     content='test message',
-    msg_id='msg1',
+    msg_id='87c8541d-f773-4825-bbb1-f518727231f2',
     role=Role.user,
     reference_task_ids=None,
 ):
@@ -41,7 +41,9 @@ def create_sample_message(
 
 # Helper to create a simple task
 def create_sample_task(
-    task_id='task1', status_state=TaskState.submitted, context_id='ctx1'
+    task_id='task1',
+    status_state=TaskState.submitted,
+    context_id='06cc947f-8946-4bde-b776-165462407e57',
 ):
     return Task(
         id=task_id,
@@ -216,7 +218,7 @@ class TestSimpleRequestContextBuilder(unittest.IsolatedAsyncioTestCase):
         params_none_refs = MessageSendParams(message=msg_with_no_refs)
         request_context_none = await builder.build(
             params=params_none_refs,
-            task_id='t2',
+            task_id='10b55431-5f90-4c69-b1b8-a43e9b6510af',
             context_id='c2',
             task=None,
             context=server_call_context,

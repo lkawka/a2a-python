@@ -127,7 +127,7 @@ DATA_PART_DATA: dict[str, Any] = {'kind': 'data', 'data': {'key': 'value'}}
 MINIMAL_MESSAGE_USER: dict[str, Any] = {
     'role': 'user',
     'parts': [TEXT_PART_DATA],
-    'message_id': 'msg-123',
+    'message_id': '4a90ce5d-eda0-44be-afae-a709621eb63c',
     'kind': 'message',
 }
 
@@ -146,19 +146,19 @@ FULL_TASK_STATUS: dict[str, Any] = {
 }
 
 MINIMAL_TASK: dict[str, Any] = {
-    'id': 'task-abc',
-    'context_id': 'session-xyz',
+    'id': 'ea719c56-e398-425e-b02c-49fd77b7c156',
+    'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
     'status': MINIMAL_TASK_STATUS,
     'kind': 'task',
 }
 FULL_TASK: dict[str, Any] = {
-    'id': 'task-abc',
-    'context_id': 'session-xyz',
+    'id': 'ea719c56-e398-425e-b02c-49fd77b7c156',
+    'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
     'status': FULL_TASK_STATUS,
     'history': [MINIMAL_MESSAGE_USER, AGENT_MESSAGE_WITH_FILE],
     'artifacts': [
         {
-            'artifactId': 'artifact-123',
+            'artifactId': '9ecc2482-f6bd-4ecc-a46c-771c5f49f5de',
             'parts': [DATA_PART_DATA],
             'name': 'result_data',
         }
@@ -394,15 +394,15 @@ def test_task_status():
 
 def test_task():
     task = Task(**MINIMAL_TASK)
-    assert task.id == 'task-abc'
-    assert task.context_id == 'session-xyz'
+    assert task.id == 'ea719c56-e398-425e-b02c-49fd77b7c156'
+    assert task.context_id == '598c0e6f-72c2-48fc-803a-15d693622c6f'
     assert task.status.state == TaskState.submitted
     assert task.history is None
     assert task.artifacts is None
     assert task.metadata is None
 
     task_full = Task(**FULL_TASK)
-    assert task_full.id == 'task-abc'
+    assert task_full.id == 'ea719c56-e398-425e-b02c-49fd77b7c156'
     assert task_full.status.state == TaskState.working
     assert task_full.history is not None and len(task_full.history) == 2
     assert isinstance(task_full.history[0], Message)
@@ -582,7 +582,7 @@ def test_get_task_response() -> None:
     assert resp.root.id == 'resp-1'
     assert isinstance(resp.root, GetTaskSuccessResponse)
     assert isinstance(resp.root.result, Task)
-    assert resp.root.result.id == 'task-abc'
+    assert resp.root.result.id == 'ea719c56-e398-425e-b02c-49fd77b7c156'
 
     with pytest.raises(ValidationError):  # Result is not a Task
         GetTaskResponse.model_validate(
@@ -611,7 +611,7 @@ def test_send_message_response() -> None:
     assert resp.root.id == 'resp-1'
     assert isinstance(resp.root, SendMessageSuccessResponse)
     assert isinstance(resp.root.result, Task)
-    assert resp.root.result.id == 'task-abc'
+    assert resp.root.result.id == 'ea719c56-e398-425e-b02c-49fd77b7c156'
 
     with pytest.raises(ValidationError):  # Result is not a Task
         SendMessageResponse.model_validate(
@@ -640,7 +640,7 @@ def test_cancel_task_response() -> None:
     assert resp.root.id == 1
     assert isinstance(resp.root, CancelTaskSuccessResponse)
     assert isinstance(resp.root.result, Task)
-    assert resp.root.result.id == 'task-abc'
+    assert resp.root.result.id == 'ea719c56-e398-425e-b02c-49fd77b7c156'
 
     resp_data_err: dict[str, Any] = {
         'jsonrpc': '2.0',
@@ -710,7 +710,7 @@ def test_send_message_streaming_artifact_update_response() -> None:
     text_part = TextPart(**TEXT_PART_DATA)
     data_part = DataPart(**DATA_PART_DATA)
     artifact = Artifact(
-        artifact_id='artifact-123',
+        artifact_id='9ecc2482-f6bd-4ecc-a46c-771c5f49f5de',
         name='result_data',
         parts=[Part(root=text_part), Part(root=data_part)],
     )
@@ -731,7 +731,10 @@ def test_send_message_streaming_artifact_update_response() -> None:
     assert response.root.id == 1
     assert isinstance(response.root, SendStreamingMessageSuccessResponse)
     assert isinstance(response.root.result, TaskArtifactUpdateEvent)
-    assert response.root.result.artifact.artifact_id == 'artifact-123'
+    assert (
+        response.root.result.artifact.artifact_id
+        == '9ecc2482-f6bd-4ecc-a46c-771c5f49f5de'
+    )
     assert response.root.result.artifact.name == 'result_data'
     assert response.root.result.task_id == 'task_id'
     assert not response.root.result.append
@@ -743,7 +746,7 @@ def test_send_message_streaming_artifact_update_response() -> None:
 
 def test_set_task_push_notification_response() -> None:
     task_push_config = TaskPushNotificationConfig(
-        task_id='t2',
+        task_id='10b55431-5f90-4c69-b1b8-a43e9b6510af',
         push_notification_config=PushNotificationConfig(
             url='https://example.com', token='token'
         ),
@@ -757,7 +760,7 @@ def test_set_task_push_notification_response() -> None:
     assert resp.root.id == 1
     assert isinstance(resp.root, SetTaskPushNotificationConfigSuccessResponse)
     assert isinstance(resp.root.result, TaskPushNotificationConfig)
-    assert resp.root.result.task_id == 't2'
+    assert resp.root.result.task_id == '10b55431-5f90-4c69-b1b8-a43e9b6510af'
     assert (
         resp.root.result.push_notification_config.url == 'https://example.com'
     )
@@ -804,7 +807,7 @@ def test_set_task_push_notification_response() -> None:
 
 def test_get_task_push_notification_response() -> None:
     task_push_config = TaskPushNotificationConfig(
-        task_id='t2',
+        task_id='10b55431-5f90-4c69-b1b8-a43e9b6510af',
         push_notification_config=PushNotificationConfig(
             url='https://example.com', token='token'
         ),
@@ -818,7 +821,7 @@ def test_get_task_push_notification_response() -> None:
     assert resp.root.id == 1
     assert isinstance(resp.root, GetTaskPushNotificationConfigSuccessResponse)
     assert isinstance(resp.root.result, TaskPushNotificationConfig)
-    assert resp.root.result.task_id == 't2'
+    assert resp.root.result.task_id == '10b55431-5f90-4c69-b1b8-a43e9b6510af'
     assert (
         resp.root.result.push_notification_config.url == 'https://example.com'
     )
@@ -891,7 +894,7 @@ def test_a2a_request_root_model() -> None:
     assert a2a_req_send_subs.root.method == 'message/stream'
 
     # GetTaskRequest case
-    get_params = TaskQueryParams(id='t2')
+    get_params = TaskQueryParams(id='10b55431-5f90-4c69-b1b8-a43e9b6510af')
     get_req_data: dict[str, Any] = {
         'jsonrpc': '2.0',
         'method': 'tasks/get',
@@ -903,7 +906,7 @@ def test_a2a_request_root_model() -> None:
     assert a2a_req_get.root.method == 'tasks/get'
 
     # CancelTaskRequest case
-    id_params = TaskIdParams(id='t2')
+    id_params = TaskIdParams(id='10b55431-5f90-4c69-b1b8-a43e9b6510af')
     cancel_req_data: dict[str, Any] = {
         'jsonrpc': '2.0',
         'method': 'tasks/cancel',
@@ -916,7 +919,7 @@ def test_a2a_request_root_model() -> None:
 
     # SetTaskPushNotificationConfigRequest
     task_push_config = TaskPushNotificationConfig(
-        task_id='t2',
+        task_id='10b55431-5f90-4c69-b1b8-a43e9b6510af',
         push_notification_config=PushNotificationConfig(
             url='https://example.com', token='token'
         ),
@@ -939,7 +942,7 @@ def test_a2a_request_root_model() -> None:
     )
 
     # GetTaskPushNotificationConfigRequest
-    id_params = TaskIdParams(id='t2')
+    id_params = TaskIdParams(id='10b55431-5f90-4c69-b1b8-a43e9b6510af')
     get_push_notif_req_data: dict[str, Any] = {
         'id': 1,
         'jsonrpc': '2.0',
@@ -1018,7 +1021,7 @@ def test_a2a_request_root_model_id_validation() -> None:
         A2ARequest.model_validate(send_subs_req_data)  # missing id
 
     # GetTaskRequest case
-    get_params = TaskQueryParams(id='t2')
+    get_params = TaskQueryParams(id='10b55431-5f90-4c69-b1b8-a43e9b6510af')
     get_req_data: dict[str, Any] = {
         'jsonrpc': '2.0',
         'method': 'tasks/get',
@@ -1028,7 +1031,7 @@ def test_a2a_request_root_model_id_validation() -> None:
         A2ARequest.model_validate(get_req_data)  # missing id
 
     # CancelTaskRequest case
-    id_params = TaskIdParams(id='t2')
+    id_params = TaskIdParams(id='10b55431-5f90-4c69-b1b8-a43e9b6510af')
     cancel_req_data: dict[str, Any] = {
         'jsonrpc': '2.0',
         'method': 'tasks/cancel',
@@ -1039,7 +1042,7 @@ def test_a2a_request_root_model_id_validation() -> None:
 
     # SetTaskPushNotificationConfigRequest
     task_push_config = TaskPushNotificationConfig(
-        task_id='t2',
+        task_id='10b55431-5f90-4c69-b1b8-a43e9b6510af',
         push_notification_config=PushNotificationConfig(
             url='https://example.com', token='token'
         ),
@@ -1054,7 +1057,7 @@ def test_a2a_request_root_model_id_validation() -> None:
         A2ARequest.model_validate(set_push_notif_req_data)  # missing id
 
     # GetTaskPushNotificationConfigRequest
-    id_params = TaskIdParams(id='t2')
+    id_params = TaskIdParams(id='10b55431-5f90-4c69-b1b8-a43e9b6510af')
     get_push_notif_req_data: dict[str, Any] = {
         'jsonrpc': '2.0',
         'method': 'tasks/pushNotificationConfig/get',

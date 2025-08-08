@@ -21,7 +21,9 @@ from a2a.types import (
 
 # Helper to create a simple message
 def create_sample_message(
-    content='test message', msg_id='msg1', role=Role.user
+    content='test message',
+    msg_id='87c8541d-f773-4825-bbb1-f518727231f2',
+    role=Role.user,
 ):
     return Message(
         message_id=msg_id,
@@ -32,7 +34,9 @@ def create_sample_message(
 
 # Helper to create a simple task
 def create_sample_task(
-    task_id='task1', status_state=TaskState.submitted, context_id='ctx1'
+    task_id='7cf554b5-747f-409e-bf50-a3c05fd4c92c',
+    status_state=TaskState.submitted,
+    context_id='06cc947f-8946-4bde-b776-165462407e57',
 ):
     return Task(
         id=task_id,
@@ -43,7 +47,9 @@ def create_sample_task(
 
 # Helper to create a TaskStatusUpdateEvent
 def create_sample_status_update(
-    task_id='task1', status_state=TaskState.working, context_id='ctx1'
+    task_id='task1',
+    status_state=TaskState.working,
+    context_id='06cc947f-8946-4bde-b776-165462407e57',
 ):
     return TaskStatusUpdateEvent(
         task_id=task_id,
@@ -163,7 +169,9 @@ class TestResultAggregator(unittest.IsolatedAsyncioTestCase):
         self.mock_task_manager.get_task.assert_called_once()
 
     async def test_consume_all_empty_stream(self):
-        empty_task_state = create_sample_task(task_id='empty_stream_task')
+        empty_task_state = create_sample_task(
+            task_id='a4237428-57bc-4efb-903f-ed30003e7195'
+        )
 
         async def mock_consume_generator():
             if False:  # Will not yield anything
@@ -190,7 +198,7 @@ class TestResultAggregator(unittest.IsolatedAsyncioTestCase):
 
         async def raiser_gen():
             # Yield a non-Message event first to ensure process is called
-            yield create_sample_task('task_before_error_consume_all')
+            yield create_sample_task('06cc947f-8946-4bde-b776-165462407e57')
             raise TestException('Consumer error')
 
         self.mock_event_consumer.consume_all = MagicMock(
