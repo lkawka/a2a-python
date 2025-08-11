@@ -32,10 +32,10 @@ class ToProto:
         if message is None:
             return None
         return a2a_pb2.Message(
-            message_id=message.message_id,
+            message_id=str(message.message_id),
             content=[ToProto.part(p) for p in message.parts],
-            context_id=message.context_id or '',
-            task_id=message.task_id or '',
+            context_id=str(message.context_id) if message.context_id else None,
+            task_id=str(message.task_id) if message.task_id else None,
             role=cls.role(message.role),
             metadata=ToProto.metadata(message.metadata),
         )
@@ -86,8 +86,8 @@ class ToProto:
     @classmethod
     def task(cls, task: types.Task) -> a2a_pb2.Task:
         return a2a_pb2.Task(
-            id=task.id,
-            context_id=task.context_id,
+            id=str(task.id),
+            context_id=str(task.context_id),
             status=ToProto.task_status(task.status),
             artifacts=(
                 [ToProto.artifact(a) for a in task.artifacts]
@@ -129,7 +129,7 @@ class ToProto:
     @classmethod
     def artifact(cls, artifact: types.Artifact) -> a2a_pb2.Artifact:
         return a2a_pb2.Artifact(
-            artifact_id=artifact.artifact_id,
+            artifact_id=str(artifact.artifact_id),
             description=artifact.description,
             metadata=ToProto.metadata(artifact.metadata),
             name=artifact.name,
@@ -155,7 +155,7 @@ class ToProto:
             else None
         )
         return a2a_pb2.PushNotificationConfig(
-            id=config.id or '',
+            id=str(config.id) if config.id else None,
             url=config.url,
             token=config.token,
             authentication=auth_info,
@@ -166,8 +166,8 @@ class ToProto:
         cls, event: types.TaskArtifactUpdateEvent
     ) -> a2a_pb2.TaskArtifactUpdateEvent:
         return a2a_pb2.TaskArtifactUpdateEvent(
-            task_id=event.task_id,
-            context_id=event.context_id,
+            task_id=str(event.task_id),
+            context_id=str(event.context_id),
             artifact=ToProto.artifact(event.artifact),
             metadata=ToProto.metadata(event.metadata),
             append=event.append or False,
@@ -179,8 +179,8 @@ class ToProto:
         cls, event: types.TaskStatusUpdateEvent
     ) -> a2a_pb2.TaskStatusUpdateEvent:
         return a2a_pb2.TaskStatusUpdateEvent(
-            task_id=event.task_id,
-            context_id=event.context_id,
+            task_id=str(event.task_id),
+            context_id=str(event.context_id),
             status=ToProto.task_status(event.status),
             metadata=ToProto.metadata(event.metadata),
             final=event.final,
