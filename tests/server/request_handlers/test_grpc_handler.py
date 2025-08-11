@@ -368,7 +368,7 @@ class TestGrpcExtensions:
             (HTTP_EXTENSION_HEADER, 'baz  , bar'),
         )
         mock_request_handler.on_message_send.return_value = types.Message(
-            message_id='1',
+            message_id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
             role=types.Role.agent,
             parts=[types.Part(root=types.TextPart(text='test'))],
         )

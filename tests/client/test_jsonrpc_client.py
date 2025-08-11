@@ -365,7 +365,9 @@ class TestJsonRpcTransport:
             role=Role.agent, content='Hi there!'
         )
         rpc_response = SendMessageSuccessResponse(
-            id='123', jsonrpc='2.0', result=success_response
+            id='5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
+            jsonrpc='2.0',
+            result=success_response,
         )
         response = httpx.Response(
             200, json=rpc_response.model_dump(mode='json')
@@ -390,7 +392,7 @@ class TestJsonRpcTransport:
         )
         error_response = InvalidParamsError()
         rpc_response = {
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'jsonrpc': '2.0',
             'error': error_response.model_dump(exclude_none=True),
         }
@@ -541,7 +543,7 @@ class TestJsonRpcTransport:
         )
         params = TaskQueryParams(id='ea719c56-e398-425e-b02c-49fd77b7c156')
         rpc_response = {
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'jsonrpc': '2.0',
             'result': MINIMAL_TASK,
         }
@@ -569,7 +571,7 @@ class TestJsonRpcTransport:
         )
         params = TaskIdParams(id='ea719c56-e398-425e-b02c-49fd77b7c156')
         rpc_response = {
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'jsonrpc': '2.0',
             'result': MINIMAL_CANCELLED_TASK,
         }
@@ -602,7 +604,7 @@ class TestJsonRpcTransport:
             ),
         )
         rpc_response = {
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'jsonrpc': '2.0',
             'result': params.model_dump(mode='json'),
         }
@@ -633,7 +635,7 @@ class TestJsonRpcTransport:
             ),
         )
         rpc_response = {
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'jsonrpc': '2.0',
             'result': expected_response.model_dump(mode='json'),
         }
@@ -763,7 +765,7 @@ class TestJsonRpcTransport:
         )
 
         rpc_response = {
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'jsonrpc': '2.0',
             'result': AGENT_CARD_EXTENDED.model_dump(mode='json'),
         }

@@ -118,7 +118,10 @@ def test_append_artifact_to_task():
         parts=[Part(root=TextPart(text='Hello'))],
     )
     append_event_1 = TaskArtifactUpdateEvent(
-        artifact=artifact_1, append=False, task_id='123', context_id='123'
+        artifact=artifact_1,
+        append=False,
+        task_id='5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
+        context_id='5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
     )
 
     # Test adding a new artifact (not appending)
@@ -138,7 +141,10 @@ def test_append_artifact_to_task():
         parts=[Part(root=TextPart(text='Updated'))],
     )
     append_event_2 = TaskArtifactUpdateEvent(
-        artifact=artifact_2, append=False, task_id='123', context_id='123'
+        artifact=artifact_2,
+        append=False,
+        task_id='5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
+        context_id='5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
     )
     append_artifact_to_task(task, append_event_2)
     assert len(task.artifacts) == 1  # Should still have one artifact
@@ -157,8 +163,8 @@ def test_append_artifact_to_task():
     append_event_3 = TaskArtifactUpdateEvent(
         artifact=artifact_with_parts,
         append=True,
-        task_id='123',
-        context_id='123',
+        task_id='5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
+        context_id='5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
     )
     append_artifact_to_task(task, append_event_3)
     assert len(task.artifacts[0].parts) == 2
@@ -173,8 +179,8 @@ def test_append_artifact_to_task():
     append_event_4 = TaskArtifactUpdateEvent(
         artifact=another_artifact_with_parts,
         append=False,
-        task_id='123',
-        context_id='123',
+        task_id='5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
+        context_id='5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
     )
     append_artifact_to_task(task, append_event_4)
     assert len(task.artifacts) == 2
@@ -192,8 +198,8 @@ def test_append_artifact_to_task():
     append_event_5 = TaskArtifactUpdateEvent(
         artifact=non_existing_artifact_with_parts,
         append=True,
-        task_id='123',
-        context_id='123',
+        task_id='5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
+        context_id='5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
     )
     append_artifact_to_task(task, append_event_5)
     assert len(task.artifacts) == 2

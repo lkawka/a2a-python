@@ -79,7 +79,7 @@ class TestInMemoryPushNotifier(unittest.IsolatedAsyncioTestCase):
         )
 
     async def test_set_info_without_config_id(self):
-        task_id = 'task1'
+        task_id = '13d5b8a8-62d7-4490-98c8-d3951b42702a'
         initial_config = PushNotificationConfig(
             url='http://initial.url/callback'
         )

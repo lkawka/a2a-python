@@ -427,10 +427,12 @@ def test_jsonrpc_error():
     assert err.data is None
 
     err_data = JSONRPCError(
-        code=-32001, message='Task not found', data={'taskId': '123'}
+        code=-32001,
+        message='Task not found',
+        data={'taskId': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863'},
     )
     assert err_data.code == -32001
-    assert err_data.data == {'taskId': '123'}
+    assert err_data.data == {'taskId': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863'}
 
 
 def test_jsonrpc_request():
@@ -662,8 +664,8 @@ def test_cancel_task_response() -> None:
 def test_send_message_streaming_status_update_response() -> None:
     task_status_update_event_data: dict[str, Any] = {
         'status': MINIMAL_TASK_STATUS,
-        'taskId': '1',
-        'context_id': '2',
+        'taskId': '8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
+        'context_id': '2964160a-4f18-40a5-91e1-498eafb206f6',
         'final': False,
         'kind': 'status-update',
     }
@@ -678,7 +680,9 @@ def test_send_message_streaming_status_update_response() -> None:
     assert isinstance(response.root, SendStreamingMessageSuccessResponse)
     assert isinstance(response.root.result, TaskStatusUpdateEvent)
     assert response.root.result.status.state == TaskState.submitted
-    assert response.root.result.task_id == '1'
+    assert (
+        response.root.result.task_id == '8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32'
+    )
     assert not response.root.result.final
 
     with pytest.raises(
@@ -721,8 +725,8 @@ def test_send_message_streaming_artifact_update_response() -> None:
     )
     task_artifact_update_event_data: dict[str, Any] = {
         'artifact': artifact,
-        'taskId': 'task_id',
-        'context_id': '2',
+        'taskId': '85c7b187-4215-49a3-91e5-a62896a50b46',
+        'context_id': '2964160a-4f18-40a5-91e1-498eafb206f6',
         'append': False,
         'lastChunk': True,
         'kind': 'artifact-update',
@@ -741,7 +745,9 @@ def test_send_message_streaming_artifact_update_response() -> None:
         == '9ecc2482-f6bd-4ecc-a46c-771c5f49f5de'
     )
     assert response.root.result.artifact.name == 'result_data'
-    assert response.root.result.task_id == 'task_id'
+    assert (
+        response.root.result.task_id == '85c7b187-4215-49a3-91e5-a62896a50b46'
+    )
     assert not response.root.result.append
     assert response.root.result.last_chunk
     assert len(response.root.result.artifact.parts) == 2
@@ -765,7 +771,9 @@ def test_set_task_push_notification_response() -> None:
     assert resp.root.id == 1
     assert isinstance(resp.root, SetTaskPushNotificationConfigSuccessResponse)
     assert isinstance(resp.root.result, TaskPushNotificationConfig)
-    assert resp.root.result.task_id == '10b55431-5f90-4c69-b1b8-a43e9b6510af'
+    assert (
+        str(resp.root.result.task_id) == '10b55431-5f90-4c69-b1b8-a43e9b6510af'
+    )
     assert (
         resp.root.result.push_notification_config.url == 'https://example.com'
     )
@@ -826,7 +834,9 @@ def test_get_task_push_notification_response() -> None:
     assert resp.root.id == 1
     assert isinstance(resp.root, GetTaskPushNotificationConfigSuccessResponse)
     assert isinstance(resp.root.result, TaskPushNotificationConfig)
-    assert resp.root.result.task_id == '10b55431-5f90-4c69-b1b8-a43e9b6510af'
+    assert (
+        str(resp.root.result.task_id) == '10b55431-5f90-4c69-b1b8-a43e9b6510af'
+    )
     assert (
         resp.root.result.push_notification_config.url == 'https://example.com'
     )
@@ -904,7 +914,7 @@ def test_a2a_request_root_model() -> None:
         'jsonrpc': '2.0',
         'method': 'tasks/get',
         'params': get_params.model_dump(),
-        'id': 2,
+        'id': '02f69d7b-041c-416f-ba8c-b280f2b2c018',
     }
     a2a_req_get = A2ARequest.model_validate(get_req_data)
     assert isinstance(a2a_req_get.root, GetTaskRequest)
@@ -916,7 +926,7 @@ def test_a2a_request_root_model() -> None:
         'jsonrpc': '2.0',
         'method': 'tasks/cancel',
         'params': id_params.model_dump(),
-        'id': 2,
+        'id': '02f69d7b-041c-416f-ba8c-b280f2b2c018',
     }
     a2a_req_cancel = A2ARequest.model_validate(cancel_req_data)
     assert isinstance(a2a_req_cancel.root, CancelTaskRequest)
@@ -968,7 +978,7 @@ def test_a2a_request_root_model() -> None:
         'jsonrpc': '2.0',
         'method': 'tasks/resubscribe',
         'params': id_params.model_dump(),
-        'id': 2,
+        'id': '02f69d7b-041c-416f-ba8c-b280f2b2c018',
     }
     a2a_req_task_resubscribe_req = A2ARequest.model_validate(
         task_resubscribe_req_data
@@ -983,7 +993,7 @@ def test_a2a_request_root_model() -> None:
     get_auth_card_req_data: dict[str, Any] = {
         'jsonrpc': '2.0',
         'method': 'agent/getAuthenticatedExtendedCard',
-        'id': 2,
+        'id': '02f69d7b-041c-416f-ba8c-b280f2b2c018',
     }
     a2a_req_get_auth_card = A2ARequest.model_validate(get_auth_card_req_data)
     assert isinstance(
@@ -1056,7 +1066,7 @@ def test_a2a_request_root_model_id_validation() -> None:
         'jsonrpc': '2.0',
         'method': 'tasks/pushNotificationConfig/set',
         'params': task_push_config.model_dump(),
-        'task_id': 2,
+        'task_id': '02f69d7b-041c-416f-ba8c-b280f2b2c018',
     }
     with pytest.raises(ValidationError):
         A2ARequest.model_validate(set_push_notif_req_data)  # missing id
@@ -1067,7 +1077,7 @@ def test_a2a_request_root_model_id_validation() -> None:
         'jsonrpc': '2.0',
         'method': 'tasks/pushNotificationConfig/get',
         'params': id_params.model_dump(),
-        'task_id': 2,
+        'task_id': '02f69d7b-041c-416f-ba8c-b280f2b2c018',
     }
     with pytest.raises(ValidationError):
         A2ARequest.model_validate(get_push_notif_req_data)

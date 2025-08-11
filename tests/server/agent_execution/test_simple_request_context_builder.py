@@ -41,7 +41,7 @@ def create_sample_message(
 
 # Helper to create a simple task
 def create_sample_task(
-    task_id='task1',
+    task_id='13d5b8a8-62d7-4490-98c8-d3951b42702a',
     status_state=TaskState.submitted,
     context_id='06cc947f-8946-4bde-b776-165462407e57',
 ):
@@ -87,7 +87,7 @@ class TestSimpleRequestContextBuilder(unittest.IsolatedAsyncioTestCase):
 
         params = MessageSendParams(message=create_sample_message())
         task_id = 'ea57b599-5bff-4f72-8376-6e47b1e3bac0'
-        context_id = '1a4bd17f-952b-4c19-9d5e-603ae0cab8cd_1'
+        context_id = '1a4bd17f-952b-4c19-9d5e-603ae0cab8cd'
         current_task = create_sample_task(
             task_id=task_id, context_id=context_id
         )
@@ -123,9 +123,9 @@ class TestSimpleRequestContextBuilder(unittest.IsolatedAsyncioTestCase):
         builder = SimpleRequestContextBuilder(
             should_populate_referred_tasks=True, task_store=self.mock_task_store
         )
-        ref_task_id1 = 'ref_task1'
+        ref_task_id1 = '11aec17b-882d-4c14-a1c3-629e04041bb5'
         ref_task_id2 = 'ref_task2_missing'
-        ref_task_id3 = 'ref_task3'
+        ref_task_id3 = 'd6853c8e-834d-4877-be4c-aa2fec76f755'
 
         mock_ref_task1 = create_sample_task(task_id=ref_task_id1)
         mock_ref_task3 = create_sample_task(task_id=ref_task_id3)
@@ -213,7 +213,10 @@ class TestSimpleRequestContextBuilder(unittest.IsolatedAsyncioTestCase):
         # To explicitly test None in Message, we'd have to bypass Pydantic default or modify helper.
         # For now, this covers the "no IDs to process" case.
         msg_with_no_refs = Message(
-            message_id='m2', role=Role.user, parts=[], referenceTaskIds=None
+            message_id='11aec17b-882d-4c14-a1c3-629e04041bb5',
+            role=Role.user,
+            parts=[],
+            referenceTaskIds=None,
         )
         params_none_refs = MessageSendParams(message=msg_with_no_refs)
         request_context_none = await builder.build(
@@ -236,7 +239,9 @@ class TestSimpleRequestContextBuilder(unittest.IsolatedAsyncioTestCase):
             task_store=None,  # Explicitly None
         )
         params = MessageSendParams(
-            message=create_sample_message(reference_task_ids=['ref1'])
+            message=create_sample_message(
+                reference_task_ids=['11aec17b-882d-4c14-a1c3-629e04041bb5']
+            )
         )
         server_call_context = ServerCallContext(user=UnauthenticatedUser())
 
@@ -258,7 +263,7 @@ class TestSimpleRequestContextBuilder(unittest.IsolatedAsyncioTestCase):
         )
         params = MessageSendParams(
             message=create_sample_message(
-                reference_task_ids=['ref_task_should_not_be_fetched']
+                reference_task_ids=['11aec17b-882d-4c14-a1c3-629e04041bb5']
             )
         )
         server_call_context = ServerCallContext(user=UnauthenticatedUser())

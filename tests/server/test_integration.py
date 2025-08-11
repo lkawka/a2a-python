@@ -290,7 +290,7 @@ def test_starlette_rpc_endpoint_custom_url(
     # Provide a valid Task object as the return value
     task_status = TaskStatus(**MINIMAL_TASK_STATUS)
     task = Task(
-        id='task1',
+        id='13d5b8a8-62d7-4490-98c8-d3951b42702a',
         context_id='06cc947f-8946-4bde-b776-165462407e57',
         status=task_status,
     )
@@ -300,14 +300,14 @@ def test_starlette_rpc_endpoint_custom_url(
         '/api/rpc',
         json={
             'jsonrpc': '2.0',
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'method': 'tasks/get',
-            'params': {'id': 'task1'},
+            'params': {'id': '13d5b8a8-62d7-4490-98c8-d3951b42702a'},
         },
     )
     assert response.status_code == 200
     data = response.json()
-    assert data['result']['id'] == 'task1'
+    assert data['result']['id'] == '13d5b8a8-62d7-4490-98c8-d3951b42702a'
 
 
 def test_fastapi_rpc_endpoint_custom_url(
@@ -317,7 +317,7 @@ def test_fastapi_rpc_endpoint_custom_url(
     # Provide a valid Task object as the return value
     task_status = TaskStatus(**MINIMAL_TASK_STATUS)
     task = Task(
-        id='task1',
+        id='13d5b8a8-62d7-4490-98c8-d3951b42702a',
         context_id='06cc947f-8946-4bde-b776-165462407e57',
         status=task_status,
     )
@@ -327,14 +327,14 @@ def test_fastapi_rpc_endpoint_custom_url(
         '/api/rpc',
         json={
             'jsonrpc': '2.0',
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'method': 'tasks/get',
-            'params': {'id': 'task1'},
+            'params': {'id': '13d5b8a8-62d7-4490-98c8-d3951b42702a'},
         },
     )
     assert response.status_code == 200
     data = response.json()
-    assert data['result']['id'] == 'task1'
+    assert data['result']['id'] == '13d5b8a8-62d7-4490-98c8-d3951b42702a'
 
 
 def test_starlette_build_with_extra_routes(
@@ -422,7 +422,7 @@ def test_send_message(client: TestClient, handler: mock.AsyncMock):
     # Prepare mock response
     task_status = TaskStatus(**MINIMAL_TASK_STATUS)
     mock_task = Task(
-        id='task1',
+        id='13d5b8a8-62d7-4490-98c8-d3951b42702a',
         context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
         status=task_status,
     )
@@ -433,15 +433,15 @@ def test_send_message(client: TestClient, handler: mock.AsyncMock):
         '/',
         json={
             'jsonrpc': '2.0',
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'method': 'message/send',
             'params': {
                 'message': {
                     'role': 'agent',
                     'parts': [{'kind': 'text', 'text': 'Hello'}],
-                    'message_id': '111',
+                    'message_id': '2e888b8b-6d81-4505-a8ec-9220dc3c508f',
                     'kind': 'message',
-                    'task_id': 'task1',
+                    'task_id': '13d5b8a8-62d7-4490-98c8-d3951b42702a',
                     'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
                 }
             },
@@ -452,7 +452,7 @@ def test_send_message(client: TestClient, handler: mock.AsyncMock):
     assert response.status_code == 200
     data = response.json()
     assert 'result' in data
-    assert data['result']['id'] == 'task1'
+    assert data['result']['id'] == '13d5b8a8-62d7-4490-98c8-d3951b42702a'
     assert data['result']['status']['state'] == 'submitted'
 
     # Verify handler was called
@@ -465,7 +465,7 @@ def test_cancel_task(client: TestClient, handler: mock.AsyncMock):
     task_status = TaskStatus(**MINIMAL_TASK_STATUS)
     task_status.state = TaskState.canceled  # 'cancelled' #
     task = Task(
-        id='task1',
+        id='13d5b8a8-62d7-4490-98c8-d3951b42702a',
         context_id='06cc947f-8946-4bde-b776-165462407e57',
         status=task_status,
     )
@@ -476,16 +476,16 @@ def test_cancel_task(client: TestClient, handler: mock.AsyncMock):
         '/',
         json={
             'jsonrpc': '2.0',
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'method': 'tasks/cancel',
-            'params': {'id': 'task1'},
+            'params': {'id': '13d5b8a8-62d7-4490-98c8-d3951b42702a'},
         },
     )
 
     # Verify response
     assert response.status_code == 200
     data = response.json()
-    assert data['result']['id'] == 'task1'
+    assert data['result']['id'] == '13d5b8a8-62d7-4490-98c8-d3951b42702a'
     assert data['result']['status']['state'] == 'canceled'
 
     # Verify handler was called
@@ -497,7 +497,7 @@ def test_get_task(client: TestClient, handler: mock.AsyncMock):
     # Setup mock response
     task_status = TaskStatus(**MINIMAL_TASK_STATUS)
     task = Task(
-        id='task1',
+        id='13d5b8a8-62d7-4490-98c8-d3951b42702a',
         context_id='06cc947f-8946-4bde-b776-165462407e57',
         status=task_status,
     )
@@ -508,16 +508,16 @@ def test_get_task(client: TestClient, handler: mock.AsyncMock):
         '/',
         json={
             'jsonrpc': '2.0',
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'method': 'tasks/get',
-            'params': {'id': 'task1'},
+            'params': {'id': '13d5b8a8-62d7-4490-98c8-d3951b42702a'},
         },
     )
 
     # Verify response
     assert response.status_code == 200
     data = response.json()
-    assert data['result']['id'] == 'task1'
+    assert data['result']['id'] == '13d5b8a8-62d7-4490-98c8-d3951b42702a'
 
     # Verify handler was called
     handler.on_get_task.assert_awaited_once()
@@ -541,7 +541,7 @@ def test_set_push_notification_config(
         '/',
         json={
             'jsonrpc': '2.0',
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'method': 'tasks/pushNotificationConfig/set',
             'params': {
                 'task_id': '10b55431-5f90-4c69-b1b8-a43e9b6510af',
@@ -568,7 +568,7 @@ def test_get_push_notification_config(
     """Test getting push notification configuration."""
     # Setup mock response
     task_push_config = TaskPushNotificationConfig(
-        task_id='task1',
+        task_id='13d5b8a8-62d7-4490-98c8-d3951b42702a',
         push_notification_config=PushNotificationConfig(
             url='https://example.com', token='secret-token'
         ),
@@ -581,9 +581,9 @@ def test_get_push_notification_config(
         '/',
         json={
             'jsonrpc': '2.0',
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'method': 'tasks/pushNotificationConfig/get',
-            'params': {'id': 'task1'},
+            'params': {'id': '13d5b8a8-62d7-4490-98c8-d3951b42702a'},
         },
     )
 
@@ -629,15 +629,15 @@ def test_server_auth(app: A2AStarletteApplication, handler: mock.AsyncMock):
         '/',
         json={
             'jsonrpc': '2.0',
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'method': 'message/send',
             'params': {
                 'message': {
                     'role': 'agent',
                     'parts': [{'kind': 'text', 'text': 'Hello'}],
-                    'message_id': '111',
+                    'message_id': '2e888b8b-6d81-4505-a8ec-9220dc3c508f',
                     'kind': 'message',
-                    'task_id': 'task1',
+                    'task_id': '13d5b8a8-62d7-4490-98c8-d3951b42702a',
                     'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
                 }
             },
@@ -679,7 +679,7 @@ async def test_message_send_stream(
             last = [False, False, True]
             task_artifact_update_event_data: dict[str, Any] = {
                 'artifact': artifact,
-                'task_id': 'task_id',
+                'task_id': '85c7b187-4215-49a3-91e5-a62896a50b46',
                 'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
                 'append': False,
                 'lastChunk': last[i],
@@ -702,15 +702,15 @@ async def test_message_send_stream(
             '/',
             json={
                 'jsonrpc': '2.0',
-                'id': '123',
+                'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
                 'method': 'message/stream',
                 'params': {
                     'message': {
                         'role': 'agent',
                         'parts': [{'kind': 'text', 'text': 'Hello'}],
-                        'message_id': '111',
+                        'message_id': '2e888b8b-6d81-4505-a8ec-9220dc3c508f',
                         'kind': 'message',
-                        'task_id': 'task_id',
+                        'task_id': '85c7b187-4215-49a3-91e5-a62896a50b46',
                         'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
                     }
                 },
@@ -769,7 +769,7 @@ async def test_task_resubscription(
             last = [False, False, True]
             task_artifact_update_event_data: dict[str, Any] = {
                 'artifact': artifact,
-                'task_id': 'task_id',
+                'task_id': '85c7b187-4215-49a3-91e5-a62896a50b46',
                 'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
                 'append': False,
                 'lastChunk': last[i],
@@ -787,16 +787,18 @@ async def test_task_resubscription(
     try:
         # Send request using client.stream() context manager
         # Send request
-        with client.stream(
-            'POST',
-            '/',
-            json={
-                'jsonrpc': '2.0',
-                'id': '123',  # This ID is used in the success_event above
-                'method': 'tasks/resubscribe',
-                'params': {'id': 'task1'},
-            },
-        ) as response:
+        with (
+            client.stream(
+                'POST',
+                '/',
+                json={
+                    'jsonrpc': '2.0',
+                    'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',  # This ID is used in the success_event above
+                    'method': 'tasks/resubscribe',
+                    'params': {'id': '13d5b8a8-62d7-4490-98c8-d3951b42702a'},
+                },
+            ) as response
+        ):
             # Verify response is a stream
             assert response.status_code == 200
             assert (
@@ -854,7 +856,7 @@ def test_invalid_request_structure(client: TestClient):
         '/',
         json={
             # Missing required fields
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'method': 'foo/bar',
         },
     )
@@ -966,9 +968,9 @@ def test_method_not_implemented(client: TestClient, handler: mock.AsyncMock):
         '/',
         json={
             'jsonrpc': '2.0',
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'method': 'tasks/get',
-            'params': {'id': 'task1'},
+            'params': {'id': '13d5b8a8-62d7-4490-98c8-d3951b42702a'},
         },
     )
     assert response.status_code == 200
@@ -983,7 +985,7 @@ def test_unknown_method(client: TestClient):
         '/',
         json={
             'jsonrpc': '2.0',
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'method': 'unknown/method',
             'params': {},
         },
@@ -1002,7 +1004,7 @@ def test_validation_error(client: TestClient):
         '/',
         json={
             'jsonrpc': '2.0',
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'method': 'messages/send',
             'params': {
                 'message': {
@@ -1026,9 +1028,9 @@ def test_unhandled_exception(client: TestClient, handler: mock.AsyncMock):
         '/',
         json={
             'jsonrpc': '2.0',
-            'id': '123',
+            'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
             'method': 'tasks/get',
-            'params': {'id': 'task1'},
+            'params': {'id': '13d5b8a8-62d7-4490-98c8-d3951b42702a'},
         },
     )
     assert response.status_code == 200

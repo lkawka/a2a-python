@@ -47,7 +47,7 @@ def create_sample_task(
 
 # Helper to create a TaskStatusUpdateEvent
 def create_sample_status_update(
-    task_id='task1',
+    task_id='13d5b8a8-62d7-4490-98c8-d3951b42702a',
     status_state=TaskState.working,
     context_id='06cc947f-8946-4bde-b776-165462407e57',
 ):

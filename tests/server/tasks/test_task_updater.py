@@ -167,7 +167,7 @@ async def test_add_artifact_with_append_last_chunk(
     """Test add_artifact with append and last_chunk flags."""
     await task_updater.add_artifact(
         parts=sample_parts,
-        artifact_id='id1',
+        artifact_id='11aec17b-882d-4c14-a1c3-629e04041bb5',
         append=append_val,
         last_chunk=last_chunk_val,
     )
@@ -176,7 +176,7 @@ async def test_add_artifact_with_append_last_chunk(
     event = event_queue.enqueue_event.call_args[0][0]
 
     assert isinstance(event, TaskArtifactUpdateEvent)
-    assert event.artifact.artifact_id == 'id1'
+    assert event.artifact.artifact_id == '11aec17b-882d-4c14-a1c3-629e04041bb5'
     assert event.artifact.parts == sample_parts
     assert event.append == append_val
     assert event.last_chunk == last_chunk_val

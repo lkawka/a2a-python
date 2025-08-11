@@ -27,7 +27,7 @@ from a2a.types import (
 
 
 MINIMAL_TASK: dict[str, Any] = {
-    'id': '123',
+    'id': '5bb3c918-28c9-4d1f-8ca6-8ddc85c91863',
     'context_id': '598c0e6f-72c2-48fc-803a-15d693622c6f',
     'status': {'state': 'submitted'},
     'kind': 'task',
@@ -35,7 +35,7 @@ MINIMAL_TASK: dict[str, Any] = {
 MESSAGE_PAYLOAD: dict[str, Any] = {
     'role': 'agent',
     'parts': [{'text': 'test message'}],
-    'message_id': '111',
+    'message_id': '2e888b8b-6d81-4505-a8ec-9220dc3c508f',
 }
 
 
@@ -100,7 +100,7 @@ async def test_dequeue_event_empty_queue_no_wait(
 async def test_dequeue_event_wait(event_queue: EventQueue) -> None:
     """Test dequeue_event with the default wait behavior."""
     event = TaskStatusUpdateEvent(
-        task_id='task_123',
+        task_id='43305029-d2b0-4494-a61b-1c7980bf259d',
         context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
         status=TaskStatus(state=TaskState.working),
         final=True,
@@ -114,10 +114,11 @@ async def test_dequeue_event_wait(event_queue: EventQueue) -> None:
 async def test_task_done(event_queue: EventQueue) -> None:
     """Test the task_done method."""
     event = TaskArtifactUpdateEvent(
-        task_id='task_123',
+        task_id='43305029-d2b0-4494-a61b-1c7980bf259d',
         context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
         artifact=Artifact(
-            artifact_id='11', parts=[Part(TextPart(text='text'))]
+            artifact_id='d2323590-71c6-4a4b-8d53-b3f92fe8d1c7',
+            parts=[Part(TextPart(text='text'))],
         ),
     )
     await event_queue.enqueue_event(event)

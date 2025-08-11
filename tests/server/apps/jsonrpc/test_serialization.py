@@ -172,7 +172,7 @@ def test_handle_unicode_characters(agent_card_with_api_key: AgentCard):
     handler.on_message_send.return_value = Message(
         role=Role.agent,
         parts=[Part(root=TextPart(text=f'Received: {unicode_text}'))],
-        message_id='response-unicode',
+        message_id='d6853c8e-834d-4877-be4c-aa2fec76f755',
     )
 
     response = client.post('/', json=unicode_payload)

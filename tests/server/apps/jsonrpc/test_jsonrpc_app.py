@@ -191,7 +191,7 @@ class TestJSONRPCExtensions:
         handler = AsyncMock(spec=RequestHandler)
         handler.on_message_send.return_value = SendMessageResponse(
             root=SendMessageSuccessResponse(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 result=Message(
                     message_id='d2c4511e-11e1-4cda-b3fd-c24cfe8a7119',
                     role=Role.agent,
@@ -221,10 +221,10 @@ class TestJSONRPCExtensions:
             '/',
             headers=headers,
             json=SendMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(
                     message=Message(
-                        message_id='1',
+                        message_id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                         role=Role.user,
                         parts=[Part(TextPart(text='hi'))],
                     )
@@ -246,10 +246,10 @@ class TestJSONRPCExtensions:
             '/',
             headers=headers,
             json=SendMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(
                     message=Message(
-                        message_id='1',
+                        message_id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                         role=Role.user,
                         parts=[Part(TextPart(text='hi'))],
                     )
@@ -273,10 +273,10 @@ class TestJSONRPCExtensions:
             '/',
             headers=headers,
             json=SendMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(
                     message=Message(
-                        message_id='1',
+                        message_id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                         role=Role.user,
                         parts=[Part(TextPart(text='hi'))],
                     )
@@ -300,10 +300,10 @@ class TestJSONRPCExtensions:
             '/',
             headers=headers,
             json=SendMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(
                     message=Message(
-                        message_id='1',
+                        message_id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                         role=Role.user,
                         parts=[Part(TextPart(text='hi'))],
                     )
@@ -322,7 +322,7 @@ class TestJSONRPCExtensions:
             context.activated_extensions.add('baz')
             return SendMessageResponse(
                 root=SendMessageSuccessResponse(
-                    id='1',
+                    id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                     result=Message(
                         message_id='d2c4511e-11e1-4cda-b3fd-c24cfe8a7119',
                         role=Role.agent,
@@ -336,10 +336,10 @@ class TestJSONRPCExtensions:
         response = client.post(
             '/',
             json=SendMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(
                     message=Message(
-                        message_id='1',
+                        message_id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                         role=Role.user,
                         parts=[Part(TextPart(text='hi'))],
                     )

@@ -77,7 +77,7 @@ from a2a.utils.errors import ServerError
 
 
 MINIMAL_TASK: dict[str, Any] = {
-    'id': 'task_123',
+    'id': '43305029-d2b0-4494-a61b-1c7980bf259d',
     'contextId': '598c0e6f-72c2-48fc-803a-15d693622c6f',
     'status': {'state': 'submitted'},
     'kind': 'task',
@@ -85,7 +85,7 @@ MINIMAL_TASK: dict[str, Any] = {
 MESSAGE_PAYLOAD: dict[str, Any] = {
     'role': 'agent',
     'parts': [{'text': 'test message'}],
-    'messageId': '111',
+    'messageId': '2e888b8b-6d81-4505-a8ec-9220dc3c508f',
 }
 
 
@@ -107,7 +107,10 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
         mock_task = Task(**MINIMAL_TASK)
         mock_task_store.get.return_value = mock_task
-        request = GetTaskRequest(id='1', params=TaskQueryParams(id=task_id))
+        request = GetTaskRequest(
+            id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
+            params=TaskQueryParams(id=task_id),
+        )
         response: GetTaskResponse = await handler.on_get_task(
             request, call_context
         )
@@ -124,7 +127,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         handler = JSONRPCHandler(self.mock_agent_card, request_handler)
         mock_task_store.get.return_value = None
         request = GetTaskRequest(
-            id='1',
+            id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
             method='tasks/get',
             params=TaskQueryParams(id='nonexistent_id'),
         )
@@ -155,7 +158,10 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             'a2a.server.request_handlers.default_request_handler.EventConsumer.consume_all',
             return_value=streaming_coro(),
         ):
-            request = CancelTaskRequest(id='1', params=TaskIdParams(id=task_id))
+            request = CancelTaskRequest(
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
+                params=TaskIdParams(id=task_id),
+            )
             response = await handler.on_cancel_task(request, call_context)
             assert mock_agent_executor.cancel.call_count == 1
             self.assertIsInstance(response.root, CancelTaskSuccessResponse)
@@ -183,7 +189,10 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             'a2a.server.request_handlers.default_request_handler.EventConsumer.consume_all',
             return_value=streaming_coro(),
         ):
-            request = CancelTaskRequest(id='1', params=TaskIdParams(id=task_id))
+            request = CancelTaskRequest(
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
+                params=TaskIdParams(id=task_id),
+            )
             response = await handler.on_cancel_task(request, call_context)
             assert mock_agent_executor.cancel.call_count == 1
             self.assertIsInstance(response.root, JSONRPCErrorResponse)
@@ -199,7 +208,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         handler = JSONRPCHandler(self.mock_agent_card, request_handler)
         mock_task_store.get.return_value = None
         request = CancelTaskRequest(
-            id='1',
+            id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
             method='tasks/cancel',
             params=TaskIdParams(id='nonexistent_id'),
         )
@@ -227,7 +236,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
 
         _mock_builder_build.return_value = RequestContext(
             request=MagicMock(),
-            task_id='task_123',
+            task_id='43305029-d2b0-4494-a61b-1c7980bf259d',
             context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
             task=None,
             related_tasks=None,
@@ -241,7 +250,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             return_value=streaming_coro(),
         ):
             request = SendMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(message=Message(**MESSAGE_PAYLOAD)),
             )
             response = await handler.on_message_send(request)
@@ -271,7 +280,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             return_value=streaming_coro(),
         ):
             request = SendMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(
                     message=Message(
                         **MESSAGE_PAYLOAD,
@@ -305,7 +314,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             return_value=streaming_coro(),
         ):
             request = SendMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(
                     message=Message(
                         **MESSAGE_PAYLOAD,
@@ -334,7 +343,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         handler = JSONRPCHandler(self.mock_agent_card, request_handler)
         _mock_builder_build.return_value = RequestContext(
             request=MagicMock(),
-            task_id='task_123',
+            task_id='43305029-d2b0-4494-a61b-1c7980bf259d',
             context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
             task=None,
             related_tasks=None,
@@ -343,14 +352,15 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         events: list[Any] = [
             Task(**MINIMAL_TASK),
             TaskArtifactUpdateEvent(
-                task_id='task_123',
+                task_id='43305029-d2b0-4494-a61b-1c7980bf259d',
                 context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 artifact=Artifact(
-                    artifact_id='11', parts=[Part(TextPart(text='text'))]
+                    artifact_id='d2323590-71c6-4a4b-8d53-b3f92fe8d1c7',
+                    parts=[Part(TextPart(text='text'))],
                 ),
             ),
             TaskStatusUpdateEvent(
-                task_id='task_123',
+                task_id='43305029-d2b0-4494-a61b-1c7980bf259d',
                 context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 status=TaskStatus(state=TaskState.completed),
                 final=True,
@@ -368,7 +378,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             mock_task_store.get.return_value = None
             mock_agent_executor.execute.return_value = None
             request = SendStreamingMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(message=Message(**MESSAGE_PAYLOAD)),
             )
             response = handler.on_message_send_stream(request)
@@ -400,14 +410,15 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         events: list[Any] = [
             mock_task,
             TaskArtifactUpdateEvent(
-                task_id='task_123',
+                task_id='43305029-d2b0-4494-a61b-1c7980bf259d',
                 context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 artifact=Artifact(
-                    artifact_id='11', parts=[Part(TextPart(text='text'))]
+                    artifact_id='d2323590-71c6-4a4b-8d53-b3f92fe8d1c7',
+                    parts=[Part(TextPart(text='text'))],
                 ),
             ),
             TaskStatusUpdateEvent(
-                task_id='task_123',
+                task_id='43305029-d2b0-4494-a61b-1c7980bf259d',
                 context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 status=TaskStatus(state=TaskState.working),
                 final=True,
@@ -425,7 +436,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             mock_task_store.get.return_value = mock_task
             mock_agent_executor.execute.return_value = None
             request = SendStreamingMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(
                     message=Message(
                         **MESSAGE_PAYLOAD,
@@ -466,7 +477,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             ),
         )
         request = SetTaskPushNotificationConfigRequest(
-            id='1', params=task_push_config
+            id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32', params=task_push_config
         )
         response: SetTaskPushNotificationConfigResponse = (
             await handler.set_push_notification_config(request)
@@ -501,13 +512,14 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             ),
         )
         request = SetTaskPushNotificationConfigRequest(
-            id='1', params=task_push_config
+            id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32', params=task_push_config
         )
         await handler.set_push_notification_config(request)
 
         get_request: GetTaskPushNotificationConfigRequest = (
             GetTaskPushNotificationConfigRequest(
-                id='1', params=TaskIdParams(id=mock_task.id)
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
+                params=TaskIdParams(id=mock_task.id),
             )
         )
         get_response: GetTaskPushNotificationConfigResponse = (
@@ -542,7 +554,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         )
         _mock_builder_build.return_value = RequestContext(
             request=MagicMock(),
-            task_id='task_123',
+            task_id='43305029-d2b0-4494-a61b-1c7980bf259d',
             context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
             task=None,
             related_tasks=None,
@@ -552,14 +564,15 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         events: list[Any] = [
             Task(**MINIMAL_TASK),
             TaskArtifactUpdateEvent(
-                task_id='task_123',
+                task_id='43305029-d2b0-4494-a61b-1c7980bf259d',
                 context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 artifact=Artifact(
-                    artifact_id='11', parts=[Part(TextPart(text='text'))]
+                    artifact_id='d2323590-71c6-4a4b-8d53-b3f92fe8d1c7',
+                    parts=[Part(TextPart(text='text'))],
                 ),
             ),
             TaskStatusUpdateEvent(
-                task_id='task_123',
+                task_id='43305029-d2b0-4494-a61b-1c7980bf259d',
                 context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 status=TaskStatus(state=TaskState.completed),
                 final=True,
@@ -578,7 +591,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             mock_agent_executor.execute.return_value = None
             mock_httpx_client.post.return_value = httpx.Response(200)
             request = SendStreamingMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(message=Message(**MESSAGE_PAYLOAD)),
             )
             request.params.configuration = MessageSendConfiguration(
@@ -598,7 +611,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
                     'http://example.com',
                     json={
                         'contextId': '598c0e6f-72c2-48fc-803a-15d693622c6f',
-                        'id': 'task_123',
+                        'id': '43305029-d2b0-4494-a61b-1c7980bf259d',
                         'kind': 'task',
                         'status': {'state': 'submitted'},
                     },
@@ -609,7 +622,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
                     json={
                         'artifacts': [
                             {
-                                'artifactId': '11',
+                                'artifactId': 'd2323590-71c6-4a4b-8d53-b3f92fe8d1c7',
                                 'parts': [
                                     {
                                         'kind': 'text',
@@ -619,7 +632,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
                             }
                         ],
                         'contextId': '598c0e6f-72c2-48fc-803a-15d693622c6f',
-                        'id': 'task_123',
+                        'id': '43305029-d2b0-4494-a61b-1c7980bf259d',
                         'kind': 'task',
                         'status': {'state': 'submitted'},
                     },
@@ -630,7 +643,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
                     json={
                         'artifacts': [
                             {
-                                'artifactId': '11',
+                                'artifactId': 'd2323590-71c6-4a4b-8d53-b3f92fe8d1c7',
                                 'parts': [
                                     {
                                         'kind': 'text',
@@ -640,7 +653,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
                             }
                         ],
                         'contextId': '598c0e6f-72c2-48fc-803a-15d693622c6f',
-                        'id': 'task_123',
+                        'id': '43305029-d2b0-4494-a61b-1c7980bf259d',
                         'kind': 'task',
                         'status': {'state': 'completed'},
                     },
@@ -663,14 +676,15 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         mock_task = Task(**MINIMAL_TASK, history=[])
         events: list[Any] = [
             TaskArtifactUpdateEvent(
-                task_id='task_123',
+                task_id='43305029-d2b0-4494-a61b-1c7980bf259d',
                 context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 artifact=Artifact(
-                    artifact_id='11', parts=[Part(TextPart(text='text'))]
+                    artifact_id='d2323590-71c6-4a4b-8d53-b3f92fe8d1c7',
+                    parts=[Part(TextPart(text='text'))],
                 ),
             ),
             TaskStatusUpdateEvent(
-                task_id='task_123',
+                task_id='43305029-d2b0-4494-a61b-1c7980bf259d',
                 context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
                 status=TaskStatus(state=TaskState.completed),
                 final=True,
@@ -688,7 +702,8 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             mock_task_store.get.return_value = mock_task
             mock_queue_manager.tap.return_value = EventQueue()
             request = TaskResubscriptionRequest(
-                id='1', params=TaskIdParams(id=mock_task.id)
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
+                params=TaskIdParams(id=mock_task.id),
             )
             response = handler.on_resubscribe_to_task(request)
             assert isinstance(response, AsyncGenerator)
@@ -707,7 +722,8 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         handler = JSONRPCHandler(self.mock_agent_card, request_handler)
         mock_task_store.get.return_value = None
         request = TaskResubscriptionRequest(
-            id='1', params=TaskIdParams(id='nonexistent_id')
+            id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
+            params=TaskIdParams(id='nonexistent_id'),
         )
         response = handler.on_resubscribe_to_task(request)
         assert isinstance(response, AsyncGenerator)
@@ -734,7 +750,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
 
         # Act & Assert
         request = SendStreamingMessageRequest(
-            id='1',
+            id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
             params=MessageSendParams(message=Message(**MESSAGE_PAYLOAD)),
         )
 
@@ -764,13 +780,13 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
 
         # Act & Assert
         task_push_config = TaskPushNotificationConfig(
-            task_id='task_123',
+            task_id='43305029-d2b0-4494-a61b-1c7980bf259d',
             push_notification_config=PushNotificationConfig(
                 url='http://example.com'
             ),
         )
         request = SetTaskPushNotificationConfigRequest(
-            id='1', params=task_push_config
+            id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32', params=task_push_config
         )
 
         # Should raise ServerError about push notifications not supported
@@ -801,7 +817,8 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
 
         # Act
         get_request = GetTaskPushNotificationConfigRequest(
-            id='1', params=TaskIdParams(id=mock_task.id)
+            id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
+            params=TaskIdParams(id=mock_task.id),
         )
         response = await handler.get_push_notification_config(get_request)
 
@@ -834,7 +851,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             ),
         )
         request = SetTaskPushNotificationConfigRequest(
-            id='1', params=task_push_config
+            id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32', params=task_push_config
         )
         response = await handler.set_push_notification_config(request)
 
@@ -862,7 +879,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         ):
             # Act
             request = SendMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(message=Message(**MESSAGE_PAYLOAD)),
             )
             response = await handler.on_message_send(request)
@@ -895,7 +912,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         ):
             # Act
             request = SendStreamingMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(message=Message(**MESSAGE_PAYLOAD)),
             )
 
@@ -963,7 +980,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         ):
             # Act
             request = SendMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(
                     message=Message(
                         **MESSAGE_PAYLOAD,
@@ -998,7 +1015,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             return_value=streaming_coro(),
         ):
             request = SendMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(message=Message(**MESSAGE_PAYLOAD)),
             )
             response = await handler.on_message_send(request)
@@ -1028,7 +1045,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             mock_task_store.get.return_value = None
             mock_agent_executor.execute.return_value = None
             request = SendStreamingMessageRequest(
-                id='1',
+                id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
                 params=MessageSendParams(message=Message(**MESSAGE_PAYLOAD)),
             )
             response = handler.on_message_send_stream(request)
@@ -1066,7 +1083,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         )
         handler = JSONRPCHandler(self.mock_agent_card, request_handler)
         list_request = GetTaskPushNotificationConfigRequest(
-            id='1',
+            id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
             params=GetTaskPushNotificationConfigParams(
                 id=mock_task.id, push_notification_config_id='config1'
             ),
@@ -1102,7 +1119,8 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         )
         handler = JSONRPCHandler(self.mock_agent_card, request_handler)
         list_request = ListTaskPushNotificationConfigRequest(
-            id='1', params=ListTaskPushNotificationConfigParams(id=mock_task.id)
+            id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
+            params=ListTaskPushNotificationConfigParams(id=mock_task.id),
         )
         response = await handler.list_push_notification_config(list_request)
         # Assert
@@ -1136,7 +1154,8 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         )
         handler = JSONRPCHandler(self.mock_agent_card, request_handler)
         list_request = ListTaskPushNotificationConfigRequest(
-            id='1', params=ListTaskPushNotificationConfigParams(id=mock_task.id)
+            id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
+            params=ListTaskPushNotificationConfigParams(id=mock_task.id),
         )
         response = await handler.list_push_notification_config(list_request)
         # Assert
@@ -1157,9 +1176,10 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         )
         handler = JSONRPCHandler(self.mock_agent_card, request_handler)
         delete_request = DeleteTaskPushNotificationConfigRequest(
-            id='1',
+            id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
             params=DeleteTaskPushNotificationConfigParams(
-                id='task1', push_notification_config_id='config1'
+                id='13d5b8a8-62d7-4490-98c8-d3951b42702a',
+                push_notification_config_id='config1',
             ),
         )
         response = await handler.delete_push_notification_config(delete_request)
@@ -1184,9 +1204,10 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         )
         handler = JSONRPCHandler(self.mock_agent_card, request_handler)
         delete_request = DeleteTaskPushNotificationConfigRequest(
-            id='1',
+            id='8a9ca3aa-1f78-4e4d-8e8f-b8228f02ed32',
             params=DeleteTaskPushNotificationConfigParams(
-                id='task1', push_notification_config_id='config1'
+                id='13d5b8a8-62d7-4490-98c8-d3951b42702a',
+                push_notification_config_id='config1',
             ),
         )
         response = await handler.delete_push_notification_config(delete_request)

@@ -7,6 +7,7 @@ import pytest
 
 from a2a.types import Artifact, Message, Part, Role, TextPart
 from a2a.utils.task import completed_task, new_task
+from pydantic import ValidationError
 
 
 class TestTask(unittest.TestCase):
@@ -194,8 +195,8 @@ class TestTask(unittest.TestCase):
         for invalid_id in invalid_ids:
             with self.subTest(invalid_id=invalid_id):
                 with pytest.raises(
-                    ValueError,
-                    match=f"Invalid context_id: '{invalid_id}' is not a valid UUID.",
+                    ValidationError,
+                    match='Input should be a valid UUID',
                 ):
                     new_task(
                         Message(
