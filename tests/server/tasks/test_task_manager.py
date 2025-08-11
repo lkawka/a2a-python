@@ -127,7 +127,7 @@ async def test_save_task_event_artifact_update(
     initial_task = Task(**MINIMAL_TASK)
     mock_task_store.get.return_value = initial_task
     new_artifact = Artifact(
-        artifact_id='artifact-id',
+        artifact_id='a5d46edb-3e5e-4fab-80e8-48ebccf8831d',
         name='artifact1',
         parts=[Part(TextPart(text='content'))],
     )
@@ -195,25 +195,25 @@ async def test_ensure_task_nonexistent(
         initial_message=None,
     )
     event = TaskStatusUpdateEvent(
-        task_id='new-task',
-        context_id='some-context',
+        task_id='41559ca6-d043-4d39-9bd1-74e4917d3357',
+        context_id='06a9d439-f7f3-44ba-be8b-0dcf3df61095',
         status=TaskStatus(state=TaskState.submitted),
         final=False,
     )
     new_task = await task_manager_without_id.ensure_task(event)
-    assert new_task.id == 'new-task'
-    assert new_task.context_id == 'some-context'
+    assert new_task.id == '41559ca6-d043-4d39-9bd1-74e4917d3357'
+    assert new_task.context_id == '06a9d439-f7f3-44ba-be8b-0dcf3df61095'
     assert new_task.status.state == TaskState.submitted
     mock_task_store.save.assert_called_once_with(new_task)
-    assert task_manager_without_id.task_id == 'new-task'
-    assert task_manager_without_id.context_id == 'some-context'
+    assert task_manager_without_id.task_id == '41559ca6-d043-4d39-9bd1-74e4917d3357'
+    assert task_manager_without_id.context_id == '06a9d439-f7f3-44ba-be8b-0dcf3df61095'
 
 
 def test_init_task_obj(task_manager: TaskManager) -> None:
     """Test initializing a new task object."""
-    new_task = task_manager._init_task_obj('new-task', 'new-context')  # type: ignore
-    assert new_task.id == 'new-task'
-    assert new_task.context_id == 'new-context'
+    new_task = task_manager._init_task_obj('41559ca6-d043-4d39-9bd1-74e4917d3357', '7a5cf082-168d-4d92-be5a-a1d9783b9596')  # type: ignore
+    assert new_task.id == '41559ca6-d043-4d39-9bd1-74e4917d3357'
+    assert new_task.context_id == '7a5cf082-168d-4d92-be5a-a1d9783b9596'
     assert new_task.status.state == TaskState.submitted
     assert new_task.history == []
 
@@ -235,7 +235,7 @@ async def test_save_task_event_mismatched_id_raises_error(
     """Test that save_task_event raises ServerError on task ID mismatch."""
     # The task_manager is initialized with 'ea719c56-e398-425e-b02c-49fd77b7c156'
     mismatched_task = Task(
-        id='wrong-id',
+        id='7e89931a-dd88-4829-9465-b0c165d535b8',
         context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
         status=TaskStatus(state=TaskState.submitted),
     )
@@ -257,16 +257,16 @@ async def test_save_task_event_new_task_no_task_id(
         initial_message=None,
     )
     task_data: dict[str, Any] = {
-        'id': 'new-task-id',
-        'context_id': 'some-context',
+        'id': '6673d15e-0a70-404f-8d8d-9904ffbae0a4',
+        'context_id': '06a9d439-f7f3-44ba-be8b-0dcf3df61095',
         'status': {'state': 'working'},
         'kind': 'task',
     }
     task = Task(**task_data)
     await task_manager_without_id.save_task_event(task)
     mock_task_store.save.assert_called_once_with(task)
-    assert task_manager_without_id.task_id == 'new-task-id'
-    assert task_manager_without_id.context_id == 'some-context'
+    assert task_manager_without_id.task_id == '6673d15e-0a70-404f-8d8d-9904ffbae0a4'
+    assert task_manager_without_id.context_id == '06a9d439-f7f3-44ba-be8b-0dcf3df61095'
     # initial submit should be updated to working
     assert task.status.state == TaskState.working
 
@@ -278,7 +278,7 @@ async def test_get_task_no_task_id(
     """Test getting a task when task_id is not set in TaskManager."""
     task_manager_without_id = TaskManager(
         task_id=None,
-        context_id='some-context',
+        context_id='06a9d439-f7f3-44ba-be8b-0dcf3df61095',
         task_store=mock_task_store,
         initial_message=None,
     )
@@ -300,8 +300,8 @@ async def test_save_task_event_no_task_existing(
     )
     mock_task_store.get.return_value = None
     event = TaskStatusUpdateEvent(
-        task_id='event-task-id',
-        context_id='some-context',
+        task_id='880d81ba-289c-49ca-88af-e63ff99f3f21',
+        context_id='06a9d439-f7f3-44ba-be8b-0dcf3df61095',
         status=TaskStatus(state=TaskState.completed),
         final=True,
     )
@@ -310,8 +310,8 @@ async def test_save_task_event_no_task_existing(
     call_args = mock_task_store.save.call_args
     assert call_args is not None
     saved_task = call_args[0][0]
-    assert saved_task.id == 'event-task-id'
-    assert saved_task.context_id == 'some-context'
+    assert str(saved_task.id) == '880d81ba-289c-49ca-88af-e63ff99f3f21'
+    assert str(saved_task.context_id) == '06a9d439-f7f3-44ba-be8b-0dcf3df61095'
     assert saved_task.status.state == TaskState.completed
-    assert task_manager_without_id.task_id == 'event-task-id'
-    assert task_manager_without_id.context_id == 'some-context'
+    assert str(task_manager_without_id.task_id) == '880d81ba-289c-49ca-88af-e63ff99f3f21'
+    assert str(task_manager_without_id.context_id) == '06a9d439-f7f3-44ba-be8b-0dcf3df61095'

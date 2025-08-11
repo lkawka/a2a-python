@@ -135,7 +135,7 @@ AGENT_MESSAGE_WITH_FILE: dict[str, Any] = {
     'role': 'agent',
     'parts': [TEXT_PART_DATA, FILE_URI_PART_DATA],
     'metadata': {'timestamp': 'now'},
-    'message_id': 'msg-456',
+    'message_id': '63124154-4edd-426a-ba99-dce87f3d659b',
 }
 
 MINIMAL_TASK_STATUS: dict[str, Any] = {'state': 'submitted'}

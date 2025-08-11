@@ -171,7 +171,7 @@ async def test_set_and_get_info_single_config(
 ):
     """Test setting and retrieving a single configuration."""
     task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
-    config = PushNotificationConfig(id='config-1', url='http://example.com')
+    config = PushNotificationConfig(id='36b8b0c3-e284-4cf0-a592-0159f5b8d3bb', url='http://example.com')
 
     await db_store_parameterized.set_info(task_id, config)
     retrieved_configs = await db_store_parameterized.get_info(task_id)
@@ -187,7 +187,7 @@ async def test_set_and_get_info_multiple_configs(
     """Test setting and retrieving multiple configurations for a single task."""
 
     task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
-    config1 = PushNotificationConfig(id='config-1', url='http://example.com/1')
+    config1 = PushNotificationConfig(id='36b8b0c3-e284-4cf0-a592-0159f5b8d3bb', url='http://example.com/1')
     config2 = PushNotificationConfig(id='config-2', url='http://example.com/2')
 
     await db_store_parameterized.set_info(task_id, config1)
@@ -205,7 +205,7 @@ async def test_set_info_updates_existing_config(
 ):
     """Test that setting an existing config ID updates the record."""
     task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
-    config_id = 'config-1'
+    config_id = '36b8b0c3-e284-4cf0-a592-0159f5b8d3bb'
     initial_config = PushNotificationConfig(
         id=config_id, url='http://initial.url'
     )
@@ -253,13 +253,13 @@ async def test_delete_info_specific_config(
 ):
     """Test deleting a single, specific configuration."""
     task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
-    config1 = PushNotificationConfig(id='config-1', url='http://a.com')
+    config1 = PushNotificationConfig(id='36b8b0c3-e284-4cf0-a592-0159f5b8d3bb', url='http://a.com')
     config2 = PushNotificationConfig(id='config-2', url='http://b.com')
 
     await db_store_parameterized.set_info(task_id, config1)
     await db_store_parameterized.set_info(task_id, config2)
 
-    await db_store_parameterized.delete_info(task_id, 'config-1')
+    await db_store_parameterized.delete_info(task_id, '36b8b0c3-e284-4cf0-a592-0159f5b8d3bb')
     retrieved_configs = await db_store_parameterized.get_info(task_id)
 
     assert len(retrieved_configs) == 1
@@ -273,7 +273,7 @@ async def test_delete_info_all_for_task(
     """Test deleting all configurations for a task when config_id is None."""
 
     task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
-    config1 = PushNotificationConfig(id='config-1', url='http://a.com')
+    config1 = PushNotificationConfig(id='36b8b0c3-e284-4cf0-a592-0159f5b8d3bb', url='http://a.com')
     config2 = PushNotificationConfig(id='config-2', url='http://b.com')
 
     await db_store_parameterized.set_info(task_id, config1)
@@ -303,7 +303,7 @@ async def test_data_is_encrypted_in_db(
     """Verify that the data stored in the database is actually encrypted."""
     task_id = 'encrypted-task'
     config = PushNotificationConfig(
-        id='config-1', url='http://secret.url', token='secret-token'
+        id='36b8b0c3-e284-4cf0-a592-0159f5b8d3bb', url='http://secret.url', token='secret-token'
     )
     plain_json = config.model_dump_json()
 
@@ -336,7 +336,7 @@ async def test_decryption_error_with_wrong_key(
     # 1. Store with one key
 
     task_id = 'wrong-key-task'
-    config = PushNotificationConfig(id='config-1', url='http://secret.url')
+    config = PushNotificationConfig(id='36b8b0c3-e284-4cf0-a592-0159f5b8d3bb', url='http://secret.url')
     await db_store_parameterized.set_info(task_id, config)
 
     # 2. Try to read with a different key
@@ -355,7 +355,7 @@ async def test_decryption_error_with_wrong_key(
     )
     async with async_session() as session:
         db_model = await session.get(
-            PushNotificationConfigModel, (task_id, 'config-1')
+            PushNotificationConfigModel, (task_id, '36b8b0c3-e284-4cf0-a592-0159f5b8d3bb')
         )
 
         with pytest.raises(ValueError):
@@ -370,7 +370,7 @@ async def test_decryption_error_with_no_key(
     # 1. Store with one key
 
     task_id = 'wrong-key-task'
-    config = PushNotificationConfig(id='config-1', url='http://secret.url')
+    config = PushNotificationConfig(id='36b8b0c3-e284-4cf0-a592-0159f5b8d3bb', url='http://secret.url')
     await db_store_parameterized.set_info(task_id, config)
 
     # 2. Try to read with no key set
@@ -386,7 +386,7 @@ async def test_decryption_error_with_no_key(
     )
     async with async_session() as session:
         db_model = await session.get(
-            PushNotificationConfigModel, (task_id, 'config-1')
+            PushNotificationConfigModel, (task_id, '36b8b0c3-e284-4cf0-a592-0159f5b8d3bb')
         )
 
         with pytest.raises(ValueError):
@@ -411,7 +411,7 @@ async def test_custom_table_name(
         )
 
         task_id = 'custom-table-task'
-        config = PushNotificationConfig(id='config-1', url='http://custom.url')
+        config = PushNotificationConfig(id='36b8b0c3-e284-4cf0-a592-0159f5b8d3bb', url='http://custom.url')
 
         # This will create the table on first use
         await custom_store.set_info(task_id, config)
@@ -456,7 +456,7 @@ async def test_set_and_get_info_multiple_configs_no_key(
     await store.initialize()
 
     task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
-    config1 = PushNotificationConfig(id='config-1', url='http://example.com/1')
+    config1 = PushNotificationConfig(id='36b8b0c3-e284-4cf0-a592-0159f5b8d3bb', url='http://example.com/1')
     config2 = PushNotificationConfig(id='config-2', url='http://example.com/2')
 
     await store.set_info(task_id, config1)
@@ -482,7 +482,7 @@ async def test_data_is_not_encrypted_in_db_if_no_key_is_set(
     await store.initialize()
 
     task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
-    config = PushNotificationConfig(id='config-1', url='http://example.com/1')
+    config = PushNotificationConfig(id='36b8b0c3-e284-4cf0-a592-0159f5b8d3bb', url='http://example.com/1')
     plain_json = config.model_dump_json()
 
     await store.set_info(task_id, config)
@@ -515,7 +515,7 @@ async def test_decryption_fallback_for_unencrypted_data(
     await unencrypted_store.initialize()
 
     task_id = 'mixed-encryption-task'
-    config = PushNotificationConfig(id='config-1', url='http://plain.url')
+    config = PushNotificationConfig(id='36b8b0c3-e284-4cf0-a592-0159f5b8d3bb', url='http://plain.url')
     await unencrypted_store.set_info(task_id, config)
 
     # 2. Try to read with the encryption-enabled store from the fixture
@@ -533,7 +533,7 @@ async def test_parsing_error_after_successful_decryption(
     """Test that a parsing error after successful decryption is handled."""
 
     task_id = 'corrupted-data-task'
-    config_id = 'config-1'
+    config_id = '36b8b0c3-e284-4cf0-a592-0159f5b8d3bb'
 
     # 1. Encrypt data that is NOT valid JSON
     fernet = Fernet(Fernet.generate_key())

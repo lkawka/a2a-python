@@ -79,7 +79,7 @@ class TestResultAggregator(unittest.IsolatedAsyncioTestCase):
         self.mock_task_manager.get_task.assert_not_called()
 
     async def test_current_result_property_with_message_none(self):
-        expected_task = create_sample_task(task_id='task_from_tm')
+        expected_task = create_sample_task(task_id='66f752c5-683b-4f67-ab1a-5b2ffdac2c6e')
         self.mock_task_manager.get_task.return_value = expected_task
         self.aggregator._message = None
 
@@ -89,7 +89,7 @@ class TestResultAggregator(unittest.IsolatedAsyncioTestCase):
         self.mock_task_manager.get_task.assert_called_once()
 
     async def test_consume_and_emit(self):
-        event1 = create_sample_message(content='event one', msg_id='e1')
+        event1 = create_sample_message(content='event one', msg_id='5c3683f9-78b1-4dbf-963e-f49794656399')
         event2 = create_sample_task(
             task_id='task_event', status_state=TaskState.working
         )
@@ -143,12 +143,12 @@ class TestResultAggregator(unittest.IsolatedAsyncioTestCase):
         self.mock_task_manager.get_task.assert_not_called()  # Should not be called if message is returned
 
     async def test_consume_all_other_event_types(self):
-        task_event = create_sample_task(task_id='task_other_event')
+        task_event = create_sample_task(task_id='eb85a5ac-5e75-4d33-ba30-28288e75cbdb')
         status_update_event = create_sample_status_update(
-            task_id='task_other_event', status_state=TaskState.completed
+            task_id='eb85a5ac-5e75-4d33-ba30-28288e75cbdb', status_state=TaskState.completed
         )
         final_task_state = create_sample_task(
-            task_id='task_other_event', status_state=TaskState.completed
+            task_id='eb85a5ac-5e75-4d33-ba30-28288e75cbdb', status_state=TaskState.completed
         )
 
         async def mock_consume_generator():
@@ -216,7 +216,7 @@ class TestResultAggregator(unittest.IsolatedAsyncioTestCase):
 
     async def test_consume_and_break_on_message(self):
         sample_message = create_sample_message(content='interrupt message')
-        event_after = create_sample_task('task_after_msg')
+        event_after = create_sample_task('f99ba8e7-6f06-400c-b25e-8bc190c078f3')
 
         async def mock_consume_generator():
             yield sample_message
@@ -244,7 +244,7 @@ class TestResultAggregator(unittest.IsolatedAsyncioTestCase):
         self, mock_create_task: MagicMock
     ):
         auth_task = create_sample_task(
-            task_id='auth_task', status_state=TaskState.auth_required
+            task_id='f3c47dc7-1d37-43bb-8798-81af1a9da143', status_state=TaskState.auth_required
         )
         event_after_auth = create_sample_message('after auth')
 
@@ -296,10 +296,10 @@ class TestResultAggregator(unittest.IsolatedAsyncioTestCase):
         self, mock_create_task: MagicMock
     ):
         auth_status_update = create_sample_status_update(
-            task_id='auth_status_task', status_state=TaskState.auth_required
+            task_id='77ec9032-6220-49f1-b7b4-3cfb135feaad', status_state=TaskState.auth_required
         )
         current_task_state_after_update = create_sample_task(
-            task_id='auth_status_task', status_state=TaskState.auth_required
+            task_id='77ec9032-6220-49f1-b7b4-3cfb135feaad', status_state=TaskState.auth_required
         )
 
         async def mock_consume_generator():
@@ -334,7 +334,7 @@ class TestResultAggregator(unittest.IsolatedAsyncioTestCase):
         )
 
     async def test_consume_and_break_completes_normally(self):
-        event1 = create_sample_message('event one normal', msg_id='n1')
+        event1 = create_sample_message('event one normal', msg_id='f10a9e68-59c8-4c23-8a2d-3da0a6015f2b')
         event2 = create_sample_task('normal_task')
         final_task_state = create_sample_task(
             'normal_task', status_state=TaskState.completed
@@ -373,7 +373,7 @@ class TestResultAggregator(unittest.IsolatedAsyncioTestCase):
 
         async def raiser_gen_interrupt():
             # Yield a non-Message event first
-            yield create_sample_task('task_before_error_interrupt')
+            yield create_sample_task('49b1275c-6cf2-4712-8476-4de12729f7a7')
             raise TestInterruptException(
                 'Consumer error during interrupt check'
             )
@@ -397,7 +397,7 @@ class TestResultAggregator(unittest.IsolatedAsyncioTestCase):
         self, mock_create_task: MagicMock
     ):
         """Test that with blocking=False, the method returns after the first event."""
-        first_event = create_sample_task('non_blocking_task')
+        first_event = create_sample_task('b0e4a702-8618-4bd5-aaec-3355f4ec0e91')
         event_after = create_sample_message('should be consumed later')
 
         async def mock_consume_generator():
@@ -438,7 +438,7 @@ class TestResultAggregator(unittest.IsolatedAsyncioTestCase):
         # the events *after* the interrupting one are processed by _continue_consuming.
 
         auth_event = create_sample_task(
-            'task_auth_for_continue', status_state=TaskState.auth_required
+            '135e2ae0-6fef-48cf-bb4b-9158f59b2910', status_state=TaskState.auth_required
         )
         event_after_auth1 = create_sample_message(
             'after auth 1', msg_id='cont1'

@@ -66,7 +66,7 @@ def test_create_task_obj_generates_context_id():
         role=Role.user,
         parts=[Part(root=TextPart(text='test'))],
         message_id='e4c28e7f-10f8-476a-a971-4c1e64bb2156',
-        task_id='task-from-msg',  # Provide a task_id to differentiate from generated task.id
+        task_id='c3dcd50f-a590-4e2a-9615-7bde3614e846',  # Provide a task_id to differentiate from generated task.id
     )
     send_params = MessageSendParams(message=message_no_context_id)
 
@@ -209,7 +209,7 @@ def test_append_artifact_to_task():
 
 # Test build_text_artifact
 def test_build_text_artifact():
-    artifact_id = 'text_artifact'
+    artifact_id = 'cad02293-b072-4f04-b20f-51f160455f93'
     text = 'This is a sample text'
     artifact = build_text_artifact(text, artifact_id)
 

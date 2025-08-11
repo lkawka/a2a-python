@@ -27,7 +27,7 @@ def create_sample_task(
 
 
 def create_sample_push_config(
-    url='http://example.com/callback', config_id='cfg1', token=None
+    url='http://example.com/callback', config_id='e40b9db6-fdb2-4712-8d56-2ff86de9038f', token=None
 ):
     return PushNotificationConfig(id=config_id, url=url, token=token)
 
@@ -92,7 +92,7 @@ class TestBasePushNotificationSender(unittest.IsolatedAsyncioTestCase):
         mock_response.raise_for_status.assert_called_once()
 
     async def test_send_notification_no_config(self):
-        task_id = 'task_send_no_config'
+        task_id = '17bf28b3-2381-472c-9fab-7d1962f630ab'
         task_data = create_sample_task(task_id=task_id)
         self.mock_config_store.get_info.return_value = []
 
@@ -105,7 +105,7 @@ class TestBasePushNotificationSender(unittest.IsolatedAsyncioTestCase):
     async def test_send_notification_http_status_error(
         self, mock_logger: MagicMock
     ):
-        task_id = 'task_send_http_err'
+        task_id = '65dad88d-500a-4629-a6ff-de7cc8d535ca'
         task_data = create_sample_task(task_id=task_id)
         config = create_sample_push_config(url='http://notify.me/http_error')
         self.mock_config_store.get_info.return_value = [config]
@@ -129,10 +129,10 @@ class TestBasePushNotificationSender(unittest.IsolatedAsyncioTestCase):
         mock_logger.error.assert_called_once()
 
     async def test_send_notification_multiple_configs(self):
-        task_id = 'task_multiple_configs'
+        task_id = '816b4b79-1b61-4f11-9a29-edfc32bc5a45'
         task_data = create_sample_task(task_id=task_id)
         config1 = create_sample_push_config(
-            url='http://notify.me/cfg1', config_id='cfg1'
+            url='http://notify.me/cfg1', config_id='e40b9db6-fdb2-4712-8d56-2ff86de9038f'
         )
         config2 = create_sample_push_config(
             url='http://notify.me/cfg2', config_id='cfg2'

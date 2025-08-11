@@ -29,7 +29,7 @@ def create_sample_task(
 
 
 def create_sample_push_config(
-    url='http://example.com/callback', config_id='cfg1', token=None
+    url='http://example.com/callback', config_id='e40b9db6-fdb2-4712-8d56-2ff86de9038f', token=None
 ):
     return PushNotificationConfig(id=config_id, url=url, token=token)
 
@@ -59,7 +59,7 @@ class TestInMemoryPushNotifier(unittest.IsolatedAsyncioTestCase):
     async def test_set_info_appends_to_existing_config(self):
         task_id = 'task_update'
         initial_config = create_sample_push_config(
-            url='http://initial.url/callback', config_id='cfg_initial'
+            url='http://initial.url/callback', config_id='0aeee4de-70ea-4924-8fd6-486e171c49e6'
         )
         await self.config_store.set_info(task_id, initial_config)
 
@@ -193,7 +193,7 @@ class TestInMemoryPushNotifier(unittest.IsolatedAsyncioTestCase):
         mock_response.raise_for_status.assert_called_once()
 
     async def test_send_notification_no_config(self):
-        task_id = 'task_send_no_config'
+        task_id = '17bf28b3-2381-472c-9fab-7d1962f630ab'
         task_data = create_sample_task(task_id=task_id)
 
         await self.notifier.send_notification(task_data)  # Pass only task_data
@@ -204,7 +204,7 @@ class TestInMemoryPushNotifier(unittest.IsolatedAsyncioTestCase):
     async def test_send_notification_http_status_error(
         self, mock_logger: MagicMock
     ):
-        task_id = 'task_send_http_err'
+        task_id = '65dad88d-500a-4629-a6ff-de7cc8d535ca'
         task_data = create_sample_task(task_id=task_id)
         config = create_sample_push_config(url='http://notify.me/http_error')
         await self.config_store.set_info(task_id, config)
@@ -234,7 +234,7 @@ class TestInMemoryPushNotifier(unittest.IsolatedAsyncioTestCase):
     async def test_send_notification_request_error(
         self, mock_logger: MagicMock
     ):
-        task_id = 'task_send_req_err'
+        task_id = '819edfe4-88ad-4f80-bba7-ec9409d745d6'
         task_data = create_sample_task(task_id=task_id)
         config = create_sample_push_config(url='http://notify.me/req_error')
         await self.config_store.set_info(task_id, config)
@@ -253,7 +253,7 @@ class TestInMemoryPushNotifier(unittest.IsolatedAsyncioTestCase):
 
     @patch('a2a.server.tasks.base_push_notification_sender.logger')
     async def test_send_notification_with_auth(self, mock_logger: MagicMock):
-        task_id = 'task_send_auth'
+        task_id = '58c25c5a-d8b1-443c-aab7-45b5743166b1'
         task_data = create_sample_task(task_id=task_id)
         auth_info = ('user', 'pass')
         config = create_sample_push_config(url='http://notify.me/auth')

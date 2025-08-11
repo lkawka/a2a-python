@@ -119,7 +119,7 @@ async def test_add_artifact_with_custom_id_and_name(
     """Test adding an artifact with a custom ID and name."""
     await task_updater.add_artifact(
         parts=sample_parts,
-        artifact_id='custom-artifact-id',
+        artifact_id='8a8e26f2-bf65-469a-9b91-e6501ca6d5ae',
         name='Custom Artifact',
     )
 
@@ -127,7 +127,7 @@ async def test_add_artifact_with_custom_id_and_name(
     event = event_queue.enqueue_event.call_args[0][0]
 
     assert isinstance(event, TaskArtifactUpdateEvent)
-    assert event.artifact.artifact_id == 'custom-artifact-id'
+    assert str(event.artifact.artifact_id) == '8a8e26f2-bf65-469a-9b91-e6501ca6d5ae'
     assert event.artifact.name == 'Custom Artifact'
     assert event.artifact.parts == sample_parts
 

@@ -220,7 +220,7 @@ async def test_save_and_get_detailed_task(
         metadata={'key1': 'value1', 'key2': 123},
         artifacts=[
             Artifact(
-                artifact_id='artifact-1',
+                artifact_id='c88484c8-b8fb-4c97-bd6a-6c0a07276bf0',
                 parts=[Part(root=TextPart(text='hello'))],
             )
         ],
@@ -263,7 +263,7 @@ async def test_update_task(db_store_parameterized: DatabaseTaskStore) -> None:
     task_id = f'update-test-task-{db_store_parameterized.engine.url.drivername}'
     original_task = Task(
         id=task_id,
-        context_id='session-update',
+        context_id='8b499585-e27a-4d74-a368-acffcf802688',
         status=TaskStatus(
             state=TaskState.submitted, timestamp='2023-01-02T10:00:00Z'
         ),
@@ -309,15 +309,15 @@ async def test_metadata_field_mapping(
     """
     # Test 1: Task with no metadata (None)
     task_no_metadata = Task(
-        id='task-metadata-test-1',
-        context_id='session-meta-1',
+        id='24bcbd71-4f67-4863-9aa7-5d9d6c7e9505',
+        context_id='ef3ce439-ae23-45e3-9c2d-0b01e69fd857',
         status=TaskStatus(state=TaskState.submitted),
         kind='task',
         metadata=None,
     )
     await db_store_parameterized.save(task_no_metadata)
     retrieved_no_metadata = await db_store_parameterized.get(
-        'task-metadata-test-1'
+        '24bcbd71-4f67-4863-9aa7-5d9d6c7e9505'
     )
     assert retrieved_no_metadata is not None
     assert retrieved_no_metadata.metadata is None
@@ -391,7 +391,7 @@ async def test_metadata_field_mapping(
     assert retrieved_none.metadata is None
 
     # Cleanup
-    await db_store_parameterized.delete('task-metadata-test-1')
+    await db_store_parameterized.delete('24bcbd71-4f67-4863-9aa7-5d9d6c7e9505')
     await db_store_parameterized.delete('task-metadata-test-2')
     await db_store_parameterized.delete('task-metadata-test-3')
     await db_store_parameterized.delete('task-metadata-test-4')

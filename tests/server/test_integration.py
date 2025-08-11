@@ -617,7 +617,7 @@ def test_server_auth(app: A2AStarletteApplication, handler: mock.AsyncMock):
     # Set the output message to be the authenticated user name
     handler.on_message_send.side_effect = lambda params, context: Message(
         context_id='598c0e6f-72c2-48fc-803a-15d693622c6f',
-        message_id='112',
+        message_id='8b87e456-c3db-4c20-aa49-698ab1fcb2a6',
         role=Role.agent,
         parts=[
             Part(TextPart(text=context.user.user_name)),

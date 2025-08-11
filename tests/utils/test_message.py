@@ -127,8 +127,8 @@ class TestNewAgentPartsMessage:
             Part(root=TextPart(text='Here is some text.')),
             Part(root=DataPart(data={'product_id': 123, 'quantity': 2})),
         ]
-        context_id = 'ctx-multi-part'
-        task_id = 'task-multi-part'
+        context_id = '48e75ad3-7d13-4f9b-8a53-5a6434e3b50d'
+        task_id = '8af2cad9-322a-483a-bbbd-ecc8635fe471'
 
         # Exercise
         with patch(
