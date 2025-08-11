@@ -163,7 +163,7 @@ def test_handle_unicode_characters(agent_card_with_api_key: AgentCard):
             'message': {
                 'role': 'user',
                 'parts': [{'kind': 'text', 'text': unicode_text}],
-                'message_id': 'msg-unicode',
+                'message_id': '9a875406-2ebb-43d7-82e6-9f7c14d51cce',
             }
         },
     }

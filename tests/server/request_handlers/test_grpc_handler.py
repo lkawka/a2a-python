@@ -108,7 +108,9 @@ async def test_get_task_success(
     mock_grpc_context: AsyncMock,
 ):
     """Test successful GetTask call."""
-    request_proto = a2a_pb2.GetTaskRequest(name='tasks/task-1')
+    request_proto = a2a_pb2.GetTaskRequest(
+        name='tasks/1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
+    )
     response_model = types.Task(
         id='1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7',
         context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
@@ -130,7 +132,9 @@ async def test_get_task_not_found(
     mock_grpc_context: AsyncMock,
 ):
     """Test GetTask call when task is not found."""
-    request_proto = a2a_pb2.GetTaskRequest(name='tasks/task-1')
+    request_proto = a2a_pb2.GetTaskRequest(
+        name='tasks/293e3a19-4ebb-4c47-b7b9-651a664a9237'
+    )
     mock_request_handler.on_get_task.return_value = None
 
     await grpc_handler.GetTask(request_proto, mock_grpc_context)
@@ -147,7 +151,9 @@ async def test_cancel_task_server_error(
     mock_grpc_context: AsyncMock,
 ):
     """Test CancelTask call when handler raises ServerError."""
-    request_proto = a2a_pb2.CancelTaskRequest(name='tasks/task-1')
+    request_proto = a2a_pb2.CancelTaskRequest(
+        name='tasks/7857a35a-e8d7-44e0-9502-a0710e58938a'
+    )
     error = ServerError(error=types.TaskNotCancelableError())
     mock_request_handler.on_cancel_task.side_effect = error
 
