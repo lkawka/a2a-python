@@ -170,8 +170,8 @@ class TestTask(unittest.TestCase):
             match='artifacts must be a non-empty list of Artifact objects',
         ):
             completed_task(
-                task_id='task-123',
-                context_id='ctx-456',
+                task_id='536ab032-6915-47d1-9909-4172dbee4aa0',
+                context_id='9f18b6e9-63c4-4d44-a8b8-f4648003b6b8',
                 artifacts=[],
                 history=[],
             )
@@ -182,8 +182,8 @@ class TestTask(unittest.TestCase):
             match='artifacts must be a non-empty list of Artifact objects',
         ):
             completed_task(
-                task_id='task-123',
-                context_id='ctx-456',
+                task_id='536ab032-6915-47d1-9909-4172dbee4aa0',
+                context_id='9f18b6e9-63c4-4d44-a8b8-f4648003b6b8',
                 artifacts=['not an artifact'],
                 history=[],
             )

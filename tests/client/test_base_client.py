@@ -65,8 +65,8 @@ async def test_send_message_streaming(
 ):
     async def create_stream(*args, **kwargs):
         yield Task(
-            id='task-123',
-            context_id='ctx-456',
+            id='536ab032-6915-47d1-9909-4172dbee4aa0',
+            context_id='9f18b6e9-63c4-4d44-a8b8-f4648003b6b8',
             status=TaskStatus(state=TaskState.completed),
         )
 
@@ -77,7 +77,7 @@ async def test_send_message_streaming(
     mock_transport.send_message_streaming.assert_called_once()
     assert not mock_transport.send_message.called
     assert len(events) == 1
-    assert events[0][0].id == 'task-123'
+    assert str(events[0][0].id) == '536ab032-6915-47d1-9909-4172dbee4aa0'
 
 
 @pytest.mark.asyncio
@@ -86,8 +86,8 @@ async def test_send_message_non_streaming(
 ):
     base_client._config.streaming = False
     mock_transport.send_message.return_value = Task(
-        id='task-456',
-        context_id='ctx-789',
+        id='9368e3b5-c796-46cf-9318-6c73e1a37e58',
+        context_id='0a934875-fa22-4af0-8b40-79b13d46e4a6',
         status=TaskStatus(state=TaskState.completed),
     )
 
@@ -96,7 +96,7 @@ async def test_send_message_non_streaming(
     mock_transport.send_message.assert_called_once()
     assert not mock_transport.send_message_streaming.called
     assert len(events) == 1
-    assert events[0][0].id == 'task-456'
+    assert str(events[0][0].id) == '9368e3b5-c796-46cf-9318-6c73e1a37e58'
 
 
 @pytest.mark.asyncio
@@ -105,7 +105,7 @@ async def test_send_message_non_streaming_agent_capability_false(
 ):
     base_client._card.capabilities.streaming = False
     mock_transport.send_message.return_value = Task(
-        id='task-789',
+        id='d7541723-0796-4231-8849-f6f137ea3bf8',
         context_id='dab80cd1-224d-47cd-abd8-cc53101fb273',
         status=TaskStatus(state=TaskState.completed),
     )
@@ -115,4 +115,4 @@ async def test_send_message_non_streaming_agent_capability_false(
     mock_transport.send_message.assert_called_once()
     assert not mock_transport.send_message_streaming.called
     assert len(events) == 1
-    assert events[0][0].id == 'task-789'
+    assert str(events[0][0].id) == 'd7541723-0796-4231-8849-f6f137ea3bf8'

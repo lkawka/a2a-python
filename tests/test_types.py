@@ -167,9 +167,11 @@ FULL_TASK: dict[str, Any] = {
     'kind': 'task',
 }
 
-MINIMAL_TASK_ID_PARAMS: dict[str, Any] = {'id': 'task-123'}
+MINIMAL_TASK_ID_PARAMS: dict[str, Any] = {
+    'id': '536ab032-6915-47d1-9909-4172dbee4aa0'
+}
 FULL_TASK_ID_PARAMS: dict[str, Any] = {
-    'id': 'task-456',
+    'id': '9368e3b5-c796-46cf-9318-6c73e1a37e58',
     'metadata': {'source': 'test'},
 }
 
@@ -538,7 +540,9 @@ def test_send_subscribe_request() -> None:
 
 
 def test_get_task_request() -> None:
-    params = TaskQueryParams(id='task-1', history_length=2)
+    params = TaskQueryParams(
+        id='1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7', history_length=2
+    )
     req_data: dict[str, Any] = {
         'jsonrpc': '2.0',
         'method': 'tasks/get',
@@ -548,7 +552,8 @@ def test_get_task_request() -> None:
     req = GetTaskRequest.model_validate(req_data)
     assert req.method == 'tasks/get'
     assert isinstance(req.params, TaskQueryParams)
-    assert req.params.id == 'task-1'
+    assert req.params.id == '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
+
     assert req.params.history_length == 2
 
     with pytest.raises(ValidationError):  # Wrong method literal
@@ -556,7 +561,7 @@ def test_get_task_request() -> None:
 
 
 def test_cancel_task_request() -> None:
-    params = TaskIdParams(id='task-1')
+    params = TaskIdParams(id='1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7')
     req_data: dict[str, Any] = {
         'jsonrpc': '2.0',
         'method': 'tasks/cancel',
@@ -566,7 +571,7 @@ def test_cancel_task_request() -> None:
     req = CancelTaskRequest.model_validate(req_data)
     assert req.method == 'tasks/cancel'
     assert isinstance(req.params, TaskIdParams)
-    assert req.params.id == 'task-1'
+    assert req.params.id == '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
 
     with pytest.raises(ValidationError):  # Wrong method literal
         CancelTaskRequest.model_validate({**req_data, 'method': 'wrong/method'})
@@ -1286,12 +1291,12 @@ def test_task_id_params_valid():
     """Tests successful validation of TaskIdParams."""
     # Minimal valid data
     params_min = TaskIdParams(**MINIMAL_TASK_ID_PARAMS)
-    assert params_min.id == 'task-123'
+    assert params_min.id == '536ab032-6915-47d1-9909-4172dbee4aa0'
     assert params_min.metadata is None
 
     # Full valid data
     params_full = TaskIdParams(**FULL_TASK_ID_PARAMS)
-    assert params_full.id == 'task-456'
+    assert params_full.id == '9368e3b5-c796-46cf-9318-6c73e1a37e58'
     assert params_full.metadata == {'source': 'test'}
 
 
@@ -1309,7 +1314,10 @@ def test_task_id_params_invalid():
     TaskIdParams(**invalid_data)  # type: ignore
 
     # Incorrect type for metadata (should be dict)
-    invalid_metadata_type = {'id': 'task-789', 'metadata': 'not_a_dict'}
+    invalid_metadata_type = {
+        'id': 'd7541723-0796-4231-8849-f6f137ea3bf8',
+        'metadata': 'not_a_dict',
+    }
     with pytest.raises(ValidationError) as excinfo_type:
         TaskIdParams(**invalid_metadata_type)  # type: ignore
     assert 'metadata' in str(
@@ -1333,15 +1341,19 @@ def test_task_push_notification_config() -> None:
     assert push_notification_config.authentication == auth_info
 
     task_push_notification_config = TaskPushNotificationConfig(
-        task_id='task-123', push_notification_config=push_notification_config
+        task_id='536ab032-6915-47d1-9909-4172dbee4aa0',
+        push_notification_config=push_notification_config,
     )
-    assert task_push_notification_config.task_id == 'task-123'
+    assert (
+        task_push_notification_config.task_id
+        == '536ab032-6915-47d1-9909-4172dbee4aa0'
+    )
     assert (
         task_push_notification_config.push_notification_config
         == push_notification_config
     )
     assert task_push_notification_config.model_dump(exclude_none=True) == {
-        'taskId': 'task-123',
+        'taskId': '536ab032-6915-47d1-9909-4172dbee4aa0',
         'pushNotificationConfig': {
             'url': 'https://example.com',
             'token': 'token',

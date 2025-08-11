@@ -30,7 +30,11 @@ class TestRequestContext:
     @pytest.fixture
     def mock_task(self):
         """Fixture for a mock Task."""
-        return Mock(spec=Task, id='task-123', context_id='context-456')
+        return Mock(
+            spec=Task,
+            id='536ab032-6915-47d1-9909-4172dbee4aa0',
+            context_id='context-456',
+        )
 
     def test_init_without_params(self):
         """Test initialization without parameters."""
@@ -66,7 +70,7 @@ class TestRequestContext:
 
     def test_init_with_task_id(self, mock_params):
         """Test initialization with task ID provided."""
-        task_id = 'task-123'
+        task_id = '536ab032-6915-47d1-9909-4172dbee4aa0'
         context = RequestContext(request=mock_params, task_id=task_id)
 
         assert context.task_id == task_id
@@ -82,7 +86,7 @@ class TestRequestContext:
 
     def test_init_with_both_ids(self, mock_params):
         """Test initialization with both task and context IDs provided."""
-        task_id = 'task-123'
+        task_id = '536ab032-6915-47d1-9909-4172dbee4aa0'
         context_id = 'context-456'
         context = RequestContext(
             request=mock_params, task_id=task_id, context_id=context_id

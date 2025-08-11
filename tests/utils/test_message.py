@@ -45,7 +45,7 @@ class TestNewAgentTextMessage:
     def test_new_agent_text_message_with_context_id(self):
         # Setup
         text = 'Message with context'
-        context_id = 'test-context-id'
+        context_id = '821a03d5-786b-47b0-bc2e-a248b73bfe9e'
 
         # Exercise
         with patch(
@@ -64,7 +64,7 @@ class TestNewAgentTextMessage:
     def test_new_agent_text_message_with_task_id(self):
         # Setup
         text = 'Message with task id'
-        task_id = 'test-task-id'
+        task_id = 'f05970c0-6215-4742-94f7-94cb27d962b2'
 
         # Exercise
         with patch(
@@ -83,8 +83,8 @@ class TestNewAgentTextMessage:
     def test_new_agent_text_message_with_both_ids(self):
         # Setup
         text = 'Message with both ids'
-        context_id = 'test-context-id'
-        task_id = 'test-task-id'
+        context_id = '821a03d5-786b-47b0-bc2e-a248b73bfe9e'
+        task_id = 'f05970c0-6215-4742-94f7-94cb27d962b2'
 
         # Exercise
         with patch(

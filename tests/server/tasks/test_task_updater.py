@@ -29,8 +29,8 @@ def task_updater(event_queue):
     """Create a TaskUpdater instance for testing."""
     return TaskUpdater(
         event_queue=event_queue,
-        task_id='test-task-id',
-        context_id='test-context-id',
+        task_id='f05970c0-6215-4742-94f7-94cb27d962b2',
+        context_id='821a03d5-786b-47b0-bc2e-a248b73bfe9e',
     )
 
 
@@ -39,8 +39,8 @@ def sample_message():
     """Create a sample message for testing."""
     return Message(
         role=Role.agent,
-        task_id='test-task-id',
-        context_id='test-context-id',
+        task_id='f05970c0-6215-4742-94f7-94cb27d962b2',
+        context_id='821a03d5-786b-47b0-bc2e-a248b73bfe9e',
         message_id='243fd82e-36c6-4e09-8835-56665053bfd4',
         parts=[Part(root=TextPart(text='Test message'))],
     )
@@ -56,13 +56,13 @@ def test_init(event_queue):
     """Test that TaskUpdater initializes correctly."""
     task_updater = TaskUpdater(
         event_queue=event_queue,
-        task_id='test-task-id',
-        context_id='test-context-id',
+        task_id='f05970c0-6215-4742-94f7-94cb27d962b2',
+        context_id='821a03d5-786b-47b0-bc2e-a248b73bfe9e',
     )
 
     assert task_updater.event_queue == event_queue
-    assert task_updater.task_id == 'test-task-id'
-    assert task_updater.context_id == 'test-context-id'
+    assert task_updater.task_id == 'f05970c0-6215-4742-94f7-94cb27d962b2'
+    assert task_updater.context_id == '821a03d5-786b-47b0-bc2e-a248b73bfe9e'
 
 
 @pytest.mark.asyncio
@@ -74,8 +74,8 @@ async def test_update_status_without_message(task_updater, event_queue):
     event = event_queue.enqueue_event.call_args[0][0]
 
     assert isinstance(event, TaskStatusUpdateEvent)
-    assert event.task_id == 'test-task-id'
-    assert event.context_id == 'test-context-id'
+    assert event.task_id == 'f05970c0-6215-4742-94f7-94cb27d962b2'
+    assert event.context_id == '821a03d5-786b-47b0-bc2e-a248b73bfe9e'
     assert event.final is False
     assert event.status.state == TaskState.working
     assert event.status.message is None
@@ -92,8 +92,8 @@ async def test_update_status_with_message(
     event = event_queue.enqueue_event.call_args[0][0]
 
     assert isinstance(event, TaskStatusUpdateEvent)
-    assert event.task_id == 'test-task-id'
-    assert event.context_id == 'test-context-id'
+    assert event.task_id == 'f05970c0-6215-4742-94f7-94cb27d962b2'
+    assert event.context_id == '821a03d5-786b-47b0-bc2e-a248b73bfe9e'
     assert event.final is False
     assert event.status.state == TaskState.working
     assert event.status.message == sample_message
@@ -277,8 +277,8 @@ def test_new_agent_message(task_updater, sample_parts):
         message = task_updater.new_agent_message(parts=sample_parts)
 
     assert message.role == Role.agent
-    assert message.task_id == 'test-task-id'
-    assert message.context_id == 'test-context-id'
+    assert message.task_id == 'f05970c0-6215-4742-94f7-94cb27d962b2'
+    assert message.context_id == '821a03d5-786b-47b0-bc2e-a248b73bfe9e'
     assert message.message_id == '26a78b4e-58de-44b7-bea4-082241ff3447'
     assert message.parts == sample_parts
     assert message.metadata is None
@@ -297,8 +297,8 @@ def test_new_agent_message_with_metadata(task_updater, sample_parts):
         )
 
     assert message.role == Role.agent
-    assert message.task_id == 'test-task-id'
-    assert message.context_id == 'test-context-id'
+    assert message.task_id == 'f05970c0-6215-4742-94f7-94cb27d962b2'
+    assert message.context_id == '821a03d5-786b-47b0-bc2e-a248b73bfe9e'
     assert message.message_id == '26a78b4e-58de-44b7-bea4-082241ff3447'
     assert message.parts == sample_parts
     assert message.metadata == metadata
@@ -523,8 +523,8 @@ async def test_update_status_raises_error_if_terminal_state_reached(
 async def test_concurrent_updates_race_condition(event_queue):
     task_updater = TaskUpdater(
         event_queue=event_queue,
-        task_id='test-task-id',
-        context_id='test-context-id',
+        task_id='f05970c0-6215-4742-94f7-94cb27d962b2',
+        context_id='821a03d5-786b-47b0-bc2e-a248b73bfe9e',
     )
     tasks = [
         task_updater.complete(),

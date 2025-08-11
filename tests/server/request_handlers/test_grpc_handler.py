@@ -69,7 +69,7 @@ async def test_send_message_success(
         )
     )
     response_model = types.Task(
-        id='task-1',
+        id='1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7',
         context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
         status=types.TaskStatus(state=types.TaskState.completed),
     )
@@ -80,7 +80,7 @@ async def test_send_message_success(
     mock_request_handler.on_message_send.assert_awaited_once()
     assert isinstance(response, a2a_pb2.SendMessageResponse)
     assert response.HasField('task')
-    assert response.task.id == 'task-1'
+    assert response.task.id == '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
 
 
 @pytest.mark.asyncio
@@ -110,7 +110,7 @@ async def test_get_task_success(
     """Test successful GetTask call."""
     request_proto = a2a_pb2.GetTaskRequest(name='tasks/task-1')
     response_model = types.Task(
-        id='task-1',
+        id='1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7',
         context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
         status=types.TaskStatus(state=types.TaskState.working),
     )
@@ -120,7 +120,7 @@ async def test_get_task_success(
 
     mock_request_handler.on_get_task.assert_awaited_once()
     assert isinstance(response, a2a_pb2.Task)
-    assert response.id == 'task-1'
+    assert response.id == '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
 
 
 @pytest.mark.asyncio
@@ -169,7 +169,7 @@ async def test_send_streaming_message(
 
     async def mock_stream():
         yield types.Task(
-            id='task-1',
+            id='1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7',
             context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
             status=types.TaskStatus(state=types.TaskState.working),
         )
@@ -186,7 +186,7 @@ async def test_send_streaming_message(
 
     assert len(results) == 1
     assert results[0].HasField('task')
-    assert results[0].task.id == 'task-1'
+    assert results[0].task.id == '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
 
 
 @pytest.mark.asyncio
@@ -332,7 +332,7 @@ class TestGrpcExtensions:
             context.activated_extensions.add('foo')
             context.activated_extensions.add('baz')
             return types.Task(
-                id='task-1',
+                id='1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7',
                 context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
                 status=types.TaskStatus(state=types.TaskState.completed),
             )
@@ -397,7 +397,7 @@ class TestGrpcExtensions:
             context.activated_extensions.add('foo')
             context.activated_extensions.add('baz')
             yield types.Task(
-                id='task-1',
+                id='1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7',
                 context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
                 status=types.TaskStatus(state=types.TaskState.working),
             )

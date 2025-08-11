@@ -16,7 +16,7 @@ def sample_message() -> types.Message:
     return types.Message(
         message_id='15957e91-63e6-40ac-8205-1d1ffb09a5b2',
         context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
-        task_id='task-1',
+        task_id='1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7',
         role=types.Role.user,
         parts=[
             types.Part(root=types.TextPart(text='Hello')),
@@ -34,7 +34,7 @@ def sample_message() -> types.Message:
 @pytest.fixture
 def sample_task(sample_message: types.Message) -> types.Task:
     return types.Task(
-        id='task-1',
+        id='1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7',
         context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
         status=types.TaskStatus(
             state=types.TaskState.working, message=sample_message

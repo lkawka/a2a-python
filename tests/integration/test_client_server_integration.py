@@ -232,7 +232,7 @@ async def test_http_transport_sends_message_streaming(
 
     message_to_send = Message(
         role=Role.user,
-        message_id='msg-integration-test',
+        message_id='11aec17b-882d-4c14-a1c3-629e04041bb5',
         parts=[Part(root=TextPart(text='Hello, integration test!'))],
     )
     params = MessageSendParams(message=message_to_send)
@@ -276,7 +276,7 @@ async def test_grpc_transport_sends_message_streaming(
 
     message_to_send = Message(
         role=Role.user,
-        message_id='msg-grpc-integration-test',
+        message_id='11aec17b-882d-4c14-a1c3-629e04041bb5',
         parts=[Part(root=TextPart(text='Hello, gRPC integration test!'))],
     )
     params = MessageSendParams(message=message_to_send)
@@ -322,7 +322,7 @@ async def test_http_transport_sends_message_blocking(
 
     message_to_send = Message(
         role=Role.user,
-        message_id='msg-integration-test-blocking',
+        message_id='11aec17b-882d-4c14-a1c3-629e04041bb5',
         parts=[Part(root=TextPart(text='Hello, blocking test!'))],
     )
     params = MessageSendParams(message=message_to_send)
@@ -365,7 +365,7 @@ async def test_grpc_transport_sends_message_blocking(
 
     message_to_send = Message(
         role=Role.user,
-        message_id='msg-grpc-integration-test-blocking',
+        message_id='11aec17b-882d-4c14-a1c3-629e04041bb5',
         parts=[Part(root=TextPart(text='Hello, gRPC blocking test!'))],
     )
     params = MessageSendParams(message=message_to_send)

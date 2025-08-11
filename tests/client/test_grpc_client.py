@@ -77,7 +77,7 @@ def sample_message_send_params() -> MessageSendParams:
 def sample_task() -> Task:
     """Provides a sample Task object."""
     return Task(
-        id='task-1',
+        id='1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7',
         context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
         status=TaskStatus(state=TaskState.completed),
     )

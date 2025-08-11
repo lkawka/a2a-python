@@ -170,7 +170,7 @@ async def test_set_and_get_info_single_config(
     db_store_parameterized: DatabasePushNotificationConfigStore,
 ):
     """Test setting and retrieving a single configuration."""
-    task_id = 'task-1'
+    task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
     config = PushNotificationConfig(id='config-1', url='http://example.com')
 
     await db_store_parameterized.set_info(task_id, config)
@@ -186,7 +186,7 @@ async def test_set_and_get_info_multiple_configs(
 ):
     """Test setting and retrieving multiple configurations for a single task."""
 
-    task_id = 'task-1'
+    task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
     config1 = PushNotificationConfig(id='config-1', url='http://example.com/1')
     config2 = PushNotificationConfig(id='config-2', url='http://example.com/2')
 
@@ -204,7 +204,7 @@ async def test_set_info_updates_existing_config(
     db_store_parameterized: DatabasePushNotificationConfigStore,
 ):
     """Test that setting an existing config ID updates the record."""
-    task_id = 'task-1'
+    task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
     config_id = 'config-1'
     initial_config = PushNotificationConfig(
         id=config_id, url='http://initial.url'
@@ -226,7 +226,7 @@ async def test_set_info_defaults_config_id_to_task_id(
     db_store_parameterized: DatabasePushNotificationConfigStore,
 ):
     """Test that config.id defaults to task_id if not provided."""
-    task_id = 'task-1'
+    task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
     config = PushNotificationConfig(url='http://example.com')  # id is None
 
     await db_store_parameterized.set_info(task_id, config)
@@ -252,7 +252,7 @@ async def test_delete_info_specific_config(
     db_store_parameterized: DatabasePushNotificationConfigStore,
 ):
     """Test deleting a single, specific configuration."""
-    task_id = 'task-1'
+    task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
     config1 = PushNotificationConfig(id='config-1', url='http://a.com')
     config2 = PushNotificationConfig(id='config-2', url='http://b.com')
 
@@ -272,7 +272,7 @@ async def test_delete_info_all_for_task(
 ):
     """Test deleting all configurations for a task when config_id is None."""
 
-    task_id = 'task-1'
+    task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
     config1 = PushNotificationConfig(id='config-1', url='http://a.com')
     config2 = PushNotificationConfig(id='config-2', url='http://b.com')
 
@@ -291,7 +291,9 @@ async def test_delete_info_not_found(
 ):
     """Test that deleting a non-existent config does not raise an error."""
     # Should not raise
-    await db_store_parameterized.delete_info('task-1', 'non-existent-config')
+    await db_store_parameterized.delete_info(
+        '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7', 'non-existent-config'
+    )
 
 
 @pytest.mark.asyncio
@@ -453,7 +455,7 @@ async def test_set_and_get_info_multiple_configs_no_key(
     )
     await store.initialize()
 
-    task_id = 'task-1'
+    task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
     config1 = PushNotificationConfig(id='config-1', url='http://example.com/1')
     config2 = PushNotificationConfig(id='config-2', url='http://example.com/2')
 
@@ -479,7 +481,7 @@ async def test_data_is_not_encrypted_in_db_if_no_key_is_set(
     )
     await store.initialize()
 
-    task_id = 'task-1'
+    task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
     config = PushNotificationConfig(id='config-1', url='http://example.com/1')
     plain_json = config.model_dump_json()
 
