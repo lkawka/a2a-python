@@ -15,7 +15,7 @@ from a2a.utils.errors import ServerError
 def sample_message() -> types.Message:
     return types.Message(
         message_id='15957e91-63e6-40ac-8205-1d1ffb09a5b2',
-        context_id='ctx-1',
+        context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
         task_id='task-1',
         role=types.Role.user,
         parts=[
@@ -35,7 +35,7 @@ def sample_message() -> types.Message:
 def sample_task(sample_message: types.Message) -> types.Task:
     return types.Task(
         id='task-1',
-        context_id='ctx-1',
+        context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
         status=types.TaskStatus(
             state=types.TaskState.working, message=sample_message
         ),

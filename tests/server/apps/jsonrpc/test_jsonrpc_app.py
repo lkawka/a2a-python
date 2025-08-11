@@ -193,7 +193,7 @@ class TestJSONRPCExtensions:
             root=SendMessageSuccessResponse(
                 id='1',
                 result=Message(
-                    message_id='test',
+                    message_id='d2c4511e-11e1-4cda-b3fd-c24cfe8a7119',
                     role=Role.agent,
                     parts=[Part(TextPart(text='response message'))],
                 ),
@@ -324,7 +324,7 @@ class TestJSONRPCExtensions:
                 root=SendMessageSuccessResponse(
                     id='1',
                     result=Message(
-                        message_id='test',
+                        message_id='d2c4511e-11e1-4cda-b3fd-c24cfe8a7119',
                         role=Role.agent,
                         parts=[Part(TextPart(text='response message'))],
                     ),

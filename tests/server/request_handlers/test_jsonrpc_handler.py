@@ -104,7 +104,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
         )
         call_context = ServerCallContext(state={'foo': 'bar'})
         handler = JSONRPCHandler(self.mock_agent_card, request_handler)
-        task_id = 'test_task_id'
+        task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
         mock_task = Task(**MINIMAL_TASK)
         mock_task_store.get.return_value = mock_task
         request = GetTaskRequest(id='1', params=TaskQueryParams(id=task_id))
@@ -142,7 +142,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             mock_agent_executor, mock_task_store
         )
         handler = JSONRPCHandler(self.mock_agent_card, request_handler)
-        task_id = 'test_task_id'
+        task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
         mock_task = Task(**MINIMAL_TASK)
         mock_task_store.get.return_value = mock_task
         mock_agent_executor.cancel.return_value = None
@@ -169,7 +169,7 @@ class TestJSONRPCtHandler(unittest.async_case.IsolatedAsyncioTestCase):
             mock_agent_executor, mock_task_store
         )
         handler = JSONRPCHandler(self.mock_agent_card, request_handler)
-        task_id = 'test_task_id'
+        task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
         mock_task = Task(**MINIMAL_TASK)
         mock_task_store.get.return_value = mock_task
         mock_agent_executor.cancel.return_value = None

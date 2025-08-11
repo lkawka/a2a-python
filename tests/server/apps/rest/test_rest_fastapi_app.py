@@ -146,7 +146,7 @@ async def test_send_message_success_message(
 ) -> None:
     expected_response = a2a_pb2.SendMessageResponse(
         msg=a2a_pb2.Message(
-            message_id='test',
+            message_id='d2c4511e-11e1-4cda-b3fd-c24cfe8a7119',
             role=a2a_pb2.Role.ROLE_AGENT,
             content=[
                 a2a_pb2.Part(text='response message'),
@@ -154,7 +154,7 @@ async def test_send_message_success_message(
         ),
     )
     request_handler.on_message_send.return_value = Message(
-        message_id='test',
+        message_id='d2c4511e-11e1-4cda-b3fd-c24cfe8a7119',
         role=Role.agent,
         parts=[Part(TextPart(text='response message'))],
     )
@@ -181,12 +181,12 @@ async def test_send_message_success_task(
 ) -> None:
     expected_response = a2a_pb2.SendMessageResponse(
         task=a2a_pb2.Task(
-            id='test_task_id',
-            context_id='test_context_id',
+            id='2cc58515-03ae-4122-a9a5-560507c822aa',
+            context_id='1a4bd17f-952b-4c19-9d5e-603ae0cab8cd',
             status=a2a_pb2.TaskStatus(
                 state=a2a_pb2.TaskState.TASK_STATE_COMPLETED,
                 update=a2a_pb2.Message(
-                    message_id='test',
+                    message_id='d2c4511e-11e1-4cda-b3fd-c24cfe8a7119',
                     role=a2a_pb2.ROLE_AGENT,
                     content=[
                         a2a_pb2.Part(text='response task message'),
@@ -196,12 +196,12 @@ async def test_send_message_success_task(
         ),
     )
     request_handler.on_message_send.return_value = Task(
-        id='test_task_id',
-        context_id='test_context_id',
+        id='2cc58515-03ae-4122-a9a5-560507c822aa',
+        context_id='1a4bd17f-952b-4c19-9d5e-603ae0cab8cd',
         status=TaskStatus(
             state=TaskState.completed,
             message=Message(
-                message_id='test',
+                message_id='d2c4511e-11e1-4cda-b3fd-c24cfe8a7119',
                 role=Role.agent,
                 parts=[Part(TextPart(text='response task message'))],
             ),

@@ -86,8 +86,8 @@ class TestSimpleRequestContextBuilder(unittest.IsolatedAsyncioTestCase):
         )
 
         params = MessageSendParams(message=create_sample_message())
-        task_id = 'test_task_id_1'
-        context_id = 'test_context_id_1'
+        task_id = 'ea57b599-5bff-4f72-8376-6e47b1e3bac0'
+        context_id = '1a4bd17f-952b-4c19-9d5e-603ae0cab8cd_1'
         current_task = create_sample_task(
             task_id=task_id, context_id=context_id
         )

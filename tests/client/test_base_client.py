@@ -106,7 +106,7 @@ async def test_send_message_non_streaming_agent_capability_false(
     base_client._card.capabilities.streaming = False
     mock_transport.send_message.return_value = Task(
         id='task-789',
-        context_id='ctx-101',
+        context_id='dab80cd1-224d-47cd-abd8-cc53101fb273',
         status=TaskStatus(state=TaskState.completed),
     )
 

@@ -35,14 +35,14 @@ class TestInMemoryQueueManager:
     @pytest.mark.asyncio
     async def test_add_new_queue(self, queue_manager, event_queue):
         """Test adding a new queue to the manager."""
-        task_id = 'test_task_id'
+        task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
         await queue_manager.add(task_id, event_queue)
         assert queue_manager._task_queue[task_id] == event_queue
 
     @pytest.mark.asyncio
     async def test_add_existing_queue(self, queue_manager, event_queue):
         """Test adding a queue with an existing task_id raises TaskQueueExists."""
-        task_id = 'test_task_id'
+        task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
         await queue_manager.add(task_id, event_queue)
 
         with pytest.raises(TaskQueueExists):
@@ -51,7 +51,7 @@ class TestInMemoryQueueManager:
     @pytest.mark.asyncio
     async def test_get_existing_queue(self, queue_manager, event_queue):
         """Test getting an existing queue returns the queue."""
-        task_id = 'test_task_id'
+        task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
         await queue_manager.add(task_id, event_queue)
 
         result = await queue_manager.get(task_id)
@@ -66,7 +66,7 @@ class TestInMemoryQueueManager:
     @pytest.mark.asyncio
     async def test_tap_existing_queue(self, queue_manager, event_queue):
         """Test tapping an existing queue returns the tapped queue."""
-        task_id = 'test_task_id'
+        task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
         await queue_manager.add(task_id, event_queue)
 
         result = await queue_manager.tap(task_id)
@@ -82,7 +82,7 @@ class TestInMemoryQueueManager:
     @pytest.mark.asyncio
     async def test_close_existing_queue(self, queue_manager, event_queue):
         """Test closing an existing queue removes it from the manager."""
-        task_id = 'test_task_id'
+        task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
         await queue_manager.add(task_id, event_queue)
 
         await queue_manager.close(task_id)
@@ -97,7 +97,7 @@ class TestInMemoryQueueManager:
     @pytest.mark.asyncio
     async def test_create_or_tap_new_queue(self, queue_manager):
         """Test create_or_tap with a new task_id creates and returns a new queue."""
-        task_id = 'test_task_id'
+        task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
 
         result = await queue_manager.create_or_tap(task_id)
         assert isinstance(result, EventQueue)
@@ -108,7 +108,7 @@ class TestInMemoryQueueManager:
         self, queue_manager, event_queue
     ):
         """Test create_or_tap with an existing task_id taps and returns the existing queue."""
-        task_id = 'test_task_id'
+        task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
         await queue_manager.add(task_id, event_queue)
 
         result = await queue_manager.create_or_tap(task_id)

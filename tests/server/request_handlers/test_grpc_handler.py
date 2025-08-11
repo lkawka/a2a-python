@@ -70,7 +70,7 @@ async def test_send_message_success(
     )
     response_model = types.Task(
         id='task-1',
-        context_id='ctx-1',
+        context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
         status=types.TaskStatus(state=types.TaskState.completed),
     )
     mock_request_handler.on_message_send.return_value = response_model
@@ -111,7 +111,7 @@ async def test_get_task_success(
     request_proto = a2a_pb2.GetTaskRequest(name='tasks/task-1')
     response_model = types.Task(
         id='task-1',
-        context_id='ctx-1',
+        context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
         status=types.TaskStatus(state=types.TaskState.working),
     )
     mock_request_handler.on_get_task.return_value = response_model
@@ -170,7 +170,7 @@ async def test_send_streaming_message(
     async def mock_stream():
         yield types.Task(
             id='task-1',
-            context_id='ctx-1',
+            context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
             status=types.TaskStatus(state=types.TaskState.working),
         )
 
@@ -333,7 +333,7 @@ class TestGrpcExtensions:
             context.activated_extensions.add('baz')
             return types.Task(
                 id='task-1',
-                context_id='ctx-1',
+                context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
                 status=types.TaskStatus(state=types.TaskState.completed),
             )
 
@@ -398,7 +398,7 @@ class TestGrpcExtensions:
             context.activated_extensions.add('baz')
             yield types.Task(
                 id='task-1',
-                context_id='ctx-1',
+                context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
                 status=types.TaskStatus(state=types.TaskState.working),
             )
 

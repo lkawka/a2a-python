@@ -78,7 +78,7 @@ def sample_task() -> Task:
     """Provides a sample Task object."""
     return Task(
         id='task-1',
-        context_id='ctx-1',
+        context_id='e1bbdfd5-8818-4200-873f-8124135770fe',
         status=TaskStatus(state=TaskState.completed),
     )
 
@@ -88,7 +88,7 @@ def sample_message() -> Message:
     """Provides a sample Message object."""
     return Message(
         role=Role.agent,
-        message_id='msg-response',
+        message_id='a76b49b6-494b-47fb-b416-36e3f2d622da',
         parts=[Part(root=TextPart(text='Hi there'))],
     )
 
