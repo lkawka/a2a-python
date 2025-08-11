@@ -188,7 +188,7 @@ async def test_set_and_get_info_multiple_configs(
 
     task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
     config1 = PushNotificationConfig(id='36b8b0c3-e284-4cf0-a592-0159f5b8d3bb', url='http://example.com/1')
-    config2 = PushNotificationConfig(id='config-2', url='http://example.com/2')
+    config2 = PushNotificationConfig(id='b7dfa41e-04b0-4c6a-86ad-f6422487f098', url='http://example.com/2')
 
     await db_store_parameterized.set_info(task_id, config1)
     await db_store_parameterized.set_info(task_id, config2)
@@ -254,7 +254,7 @@ async def test_delete_info_specific_config(
     """Test deleting a single, specific configuration."""
     task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
     config1 = PushNotificationConfig(id='36b8b0c3-e284-4cf0-a592-0159f5b8d3bb', url='http://a.com')
-    config2 = PushNotificationConfig(id='config-2', url='http://b.com')
+    config2 = PushNotificationConfig(id='b7dfa41e-04b0-4c6a-86ad-f6422487f098', url='http://b.com')
 
     await db_store_parameterized.set_info(task_id, config1)
     await db_store_parameterized.set_info(task_id, config2)
@@ -274,7 +274,7 @@ async def test_delete_info_all_for_task(
 
     task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
     config1 = PushNotificationConfig(id='36b8b0c3-e284-4cf0-a592-0159f5b8d3bb', url='http://a.com')
-    config2 = PushNotificationConfig(id='config-2', url='http://b.com')
+    config2 = PushNotificationConfig(id='b7dfa41e-04b0-4c6a-86ad-f6422487f098', url='http://b.com')
 
     await db_store_parameterized.set_info(task_id, config1)
     await db_store_parameterized.set_info(task_id, config2)
@@ -457,7 +457,7 @@ async def test_set_and_get_info_multiple_configs_no_key(
 
     task_id = '1c3a35ab-e35c-49d8-a37b-7988f5a2ecb7'
     config1 = PushNotificationConfig(id='36b8b0c3-e284-4cf0-a592-0159f5b8d3bb', url='http://example.com/1')
-    config2 = PushNotificationConfig(id='config-2', url='http://example.com/2')
+    config2 = PushNotificationConfig(id='b7dfa41e-04b0-4c6a-86ad-f6422487f098', url='http://example.com/2')
 
     await store.set_info(task_id, config1)
     await store.set_info(task_id, config2)

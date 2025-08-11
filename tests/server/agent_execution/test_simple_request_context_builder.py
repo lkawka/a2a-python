@@ -124,7 +124,7 @@ class TestSimpleRequestContextBuilder(unittest.IsolatedAsyncioTestCase):
             should_populate_referred_tasks=True, task_store=self.mock_task_store
         )
         ref_task_id1 = '11aec17b-882d-4c14-a1c3-629e04041bb5'
-        ref_task_id2 = 'ref_task2_missing'
+        ref_task_id2 = '2b36e08b-577a-42cd-b4ea-5c8048f7ab73'
         ref_task_id3 = 'd6853c8e-834d-4877-be4c-aa2fec76f755'
 
         mock_ref_task1 = create_sample_task(task_id=ref_task_id1)
