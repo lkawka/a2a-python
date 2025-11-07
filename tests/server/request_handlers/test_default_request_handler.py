@@ -834,6 +834,11 @@ async def test_on_message_send_non_blocking():
 
     assert task is not None
     assert task.status.state == TaskState.completed
+    assert (
+        result.history
+        and task.history
+        and len(result.history) == len(task.history)
+    )
 
 
 @pytest.mark.asyncio
@@ -876,7 +881,7 @@ async def test_on_message_send_limit_history():
 
 
 @pytest.mark.asyncio
-async def test_on_task_get_limit_history():
+async def test_on_get_task_limit_history():
     task_store = InMemoryTaskStore()
     push_store = InMemoryPushNotificationConfigStore()
 
