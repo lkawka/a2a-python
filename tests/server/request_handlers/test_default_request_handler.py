@@ -855,7 +855,7 @@ async def test_on_message_send_limit_history():
         configuration=MessageSendConfiguration(
             blocking=True,
             accepted_output_modes=['text/plain'],
-            history_length=0,
+            history_length=1,
         ),
     )
 
@@ -866,13 +866,13 @@ async def test_on_message_send_limit_history():
     # verify that history_length is honored
     assert result is not None
     assert isinstance(result, Task)
-    assert result.history is not None and len(result.history) == 0
+    assert result.history is not None and len(result.history) == 1
     assert result.status.state == TaskState.completed
 
     # verify that history is still persisted to the store
     task = await task_store.get(result.id)
     assert task is not None
-    assert task.history is not None and len(task.history) > 0
+    assert task.history is not None and len(task.history) > 1
 
 
 @pytest.mark.asyncio
@@ -892,7 +892,8 @@ async def test_on_task_get_limit_history():
             parts=[Part(root=TextPart(text='Hi'))],
         ),
         configuration=MessageSendConfiguration(
-            blocking=True, accepted_output_modes=['text/plain']
+            blocking=True,
+            accepted_output_modes=['text/plain'],
         ),
     )
 
@@ -904,14 +905,14 @@ async def test_on_task_get_limit_history():
     assert isinstance(result, Task)
 
     get_task_result = await request_handler.on_get_task(
-        TaskQueryParams(id=result.id, history_length=0),
+        TaskQueryParams(id=result.id, history_length=1),
         create_server_call_context(),
     )
     assert get_task_result is not None
     assert isinstance(get_task_result, Task)
     assert (
         get_task_result.history is not None
-        and len(get_task_result.history) == 0
+        and len(get_task_result.history) == 1
     )
 
 
