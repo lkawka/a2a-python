@@ -114,6 +114,14 @@ async def async_iterable_from_list(
         yield item
 
 
+def _assert_extensions_header(mock_kwargs: dict, expected_extensions: set[str]):
+    headers = mock_kwargs.get('headers', {})
+    assert HTTP_EXTENSION_HEADER in headers
+    header_value = headers[HTTP_EXTENSION_HEADER]
+    actual_extensions = {e.strip() for e in header_value.split(',')}
+    assert actual_extensions == expected_extensions
+
+
 class TestA2ACardResolver:
     BASE_URL = 'http://example.com'
     AGENT_CARD_PATH = AGENT_CARD_WELL_KNOWN_PATH
@@ -823,18 +831,13 @@ class TestJsonRpcTransportExtensions:
         mock_httpx_client.post.assert_called_once()
         _, mock_kwargs = mock_httpx_client.post.call_args
 
-        headers = mock_kwargs.get('headers', {})
-        assert HTTP_EXTENSION_HEADER in headers
-        header_value = headers[HTTP_EXTENSION_HEADER]
-        actual_extensions_list = [e.strip() for e in header_value.split(',')]
-        actual_extensions = set(actual_extensions_list)
-
-        expected_extensions = {
-            'https://example.com/test-ext/v1',
-            'https://example.com/test-ext/v2',
-        }
-        assert len(actual_extensions_list) == 2
-        assert actual_extensions == expected_extensions
+        _assert_extensions_header(
+            mock_kwargs,
+            {
+                'https://example.com/test-ext/v1',
+                'https://example.com/test-ext/v2',
+            },
+        )
 
     @pytest.mark.asyncio
     @patch('a2a.client.transports.jsonrpc.aconnect_sse')
@@ -870,8 +873,83 @@ class TestJsonRpcTransportExtensions:
         mock_aconnect_sse.assert_called_once()
         _, kwargs = mock_aconnect_sse.call_args
 
-        headers = kwargs.get('headers', {})
-        assert HTTP_EXTENSION_HEADER in headers
-        assert (
-            headers[HTTP_EXTENSION_HEADER] == 'https://example.com/test-ext/v2'
+        _assert_extensions_header(
+            kwargs,
+            {
+                'https://example.com/test-ext/v2',
+            },
+        )
+
+    @pytest.mark.asyncio
+    async def test_get_card_no_card_provided_with_extensions(
+        self, mock_httpx_client: AsyncMock
+    ):
+        """Test get_card with extensions set in Client when no card is initially provided.
+        Tests that the extensions are added to the HTTP GET request."""
+        extensions = [
+            'https://example.com/test-ext/v1',
+            'https://example.com/test-ext/v2',
+        ]
+        client = JsonRpcTransport(
+            httpx_client=mock_httpx_client,
+            url=TestJsonRpcTransport.AGENT_URL,
+            extensions=extensions,
+        )
+        mock_response = AsyncMock(spec=httpx.Response)
+        mock_response.status_code = 200
+        mock_response.json.return_value = AGENT_CARD.model_dump(mode='json')
+        mock_httpx_client.get.return_value = mock_response
+
+        await client.get_card()
+
+        mock_httpx_client.get.assert_called_once()
+        _, mock_kwargs = mock_httpx_client.get.call_args
+
+        _assert_extensions_header(
+            mock_kwargs,
+            {
+                'https://example.com/test-ext/v1',
+                'https://example.com/test-ext/v2',
+            },
+        )
+
+    @pytest.mark.asyncio
+    async def test_get_card_with_extended_card_support_with_extensions(
+        self, mock_httpx_client: AsyncMock
+    ):
+        """Test get_card with extensions passed to get_card call when extended card support is enabled.
+        Tests that the extensions are added to the RPC request."""
+        extensions = [
+            'https://example.com/test-ext/v1',
+            'https://example.com/test-ext/v2',
+        ]
+        agent_card = AGENT_CARD.model_copy(
+            update={'supports_authenticated_extended_card': True}
+        )
+        client = JsonRpcTransport(
+            httpx_client=mock_httpx_client,
+            agent_card=agent_card,
+            extensions=extensions,
+        )
+
+        rpc_response = {
+            'id': '123',
+            'jsonrpc': '2.0',
+            'result': AGENT_CARD_EXTENDED.model_dump(mode='json'),
+        }
+        with patch.object(
+            client, '_send_request', new_callable=AsyncMock
+        ) as mock_send_request:
+            mock_send_request.return_value = rpc_response
+            await client.get_card(extensions=extensions)
+
+        mock_send_request.assert_called_once()
+        _, mock_kwargs = mock_send_request.call_args[0]
+
+        _assert_extensions_header(
+            mock_kwargs,
+            {
+                'https://example.com/test-ext/v1',
+                'https://example.com/test-ext/v2',
+            },
         )
